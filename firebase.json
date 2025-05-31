@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "<project-name>",
+    "site": "angular-starter",
     "public": "dist/ngs/browser",
     "ignore": [
       "firebase.json",

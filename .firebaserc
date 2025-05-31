@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "<project-name>"
-  }
+    "default": "angular-starter",
+    "formlogin": "form-login-1ff6d"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -11,27 +11,7 @@
         <div class="mt-4 text-xl font-bold">Login</div>
 
         <!-- OAuth 2 -->
-        <div class="mt-8 grid grid-cols-2 gap-4">
-            <!-- google -->
-            <button
-                [disabled]="isSpin()"
-                mat-flat-button
-                [color]="'primary'"
-                (click)="loginGoogle()"
-            >
-                Google
-            </button>
-            <!-- github -->
-            <button
-                [disabled]="isSpin()"
-                mat-flat-button
-                class="cursor-pointer"
-                (click)="loginGithub()"
-            >
-                Github
-            </button>
-        </div>
-
+       
         <mat-divider class="mb-8 mt-4 px-20" />
 
         <!-- form -->
