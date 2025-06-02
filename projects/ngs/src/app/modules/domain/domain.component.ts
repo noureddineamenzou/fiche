@@ -24,5 +24,6 @@ export default class DomainComponent {
         'TailwindCss',
         'Firebase',
         'Prettier',
+        "fiche"
     ];
 }

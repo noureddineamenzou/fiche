@@ -1,0 +1,89 @@
+<div class="p-4 bg-white rounded shadow-md">
+  <!-- Header + Search -->
+  <div class="flex justify-between items-center mb-4">
+    <div>
+      <h2 class="text-2xl font-bold text-green-700">Fiches</h2>
+      <p class="text-sm text-gray-500">Gestion Des Fiches</p>
+    </div>
+    <div class="flex gap-2 items-center">
+      <input [formControl]="searchControl" placeholder="Search..." class="border px-4 py-2 rounded w-64 shadow-sm focus:outline-none" />
+      <button mat-fab color="primary" (click)="addNew()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-auto bg-white rounded border border-gray-200 text-black">
+    <table mat-table [dataSource]="dataSource" matSort class="w-full bg-white ">
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select" class="bg-red-400 text-gray-600">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="toggleSelectAll($event)"></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-checkbox [(ngModel)]="element.selected"></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> ID </th>
+        <td mat-cell *matCellDef="let element" class="text-black"> {{element.id}} </td>
+      </ng-container>
+
+      <!-- Name -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Name </th>
+        <td mat-cell *matCellDef="let element" class="text-black"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Level -->
+      <ng-container matColumnDef="level">
+        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Level </th>
+        <td mat-cell *matCellDef="let element">
+          <span class="px-2 py-1 rounded-full text-black">{{element.level}}</span>
+        </td>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Status </th>
+        <td mat-cell *matCellDef="let element">
+          <span [ngClass]="element.isDraft ? 'text-yellow-600' : 'text-green-600'">
+            {{element.isDraft ? 'Draft' : 'Completed'}}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Dropdown -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon class="text-black">more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editFiche(element)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deleteFiche(element.id!)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <!-- Header and Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-green-800"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+</div>

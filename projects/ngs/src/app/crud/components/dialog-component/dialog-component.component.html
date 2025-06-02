@@ -1,0 +1,28 @@
+<h2 mat-dialog-title class="p-4">{{ data ? 'edit Fiche' : 'new Fiche ' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="save()" class="space-y-4 p-4">
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>name</mat-label>
+    <input matInput formControlName="name" placeholder="name Fiche">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>level</mat-label>
+    <mat-select formControlName="level">
+      <mat-option value="1AC">1AC</mat-option>
+      <mat-option value="2AC">2AC</mat-option>
+      <mat-option value="3AC">3AC</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-slide-toggle formControlName="status" color="primary">
+    Status Fiche: {{ form.value.status === 'completed' ? 'completed' : 'draft' }}
+  </mat-slide-toggle>
+
+  <div class="flex justify-end gap-2 mt-4">
+    <button mat-button type="button" (click)="cancel()">cancele</button>
+    <button mat-raised-button color="primary" type="submit">save</button>
+  </div>
+
+</form>

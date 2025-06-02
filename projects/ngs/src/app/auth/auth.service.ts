@@ -134,7 +134,7 @@ export class AuthService {
             this.#saveUser(loggedUser.user, {});
 
             // redirect
-            this.#redirect('domain');
+            this.#redirect('fiche');
 
             return loggedUser;
         } catch (error) {

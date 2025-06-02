@@ -4,6 +4,7 @@ import {
     redirectUnauthorizedTo,
 } from '@angular/fire/auth-guard';
 import { Routes } from '@angular/router';
+import { CrudComponent } from './crud/components/crud/crud.component';
 
 
 
@@ -33,6 +34,13 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./modules/domain/domain.component'),
                 ...canActivate(redirectUnauthorizedToLogin),
+            },
+            {
+                path: 'fiche',
+                loadComponent: () =>
+                    import('./crud/components/crud/crud.component').then(m => m.CrudComponent),
+                  ...canActivate(redirectUnauthorizedToLogin),
+
             },
             {
                 path: '**',
