@@ -56,7 +56,6 @@ import { MatSort } from '@angular/material/sort';
 
   ::ng-deep .mat-option {
     font-size: 14px;
-    color: #111827;
   }
 `],
 
