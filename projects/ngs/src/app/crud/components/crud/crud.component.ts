@@ -13,9 +13,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Firestore, collection, collectionData, deleteDoc, doc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, deleteDoc, doc, setDoc } from '@angular/fire/firestore';
 import { DialogComponentComponent } from '../dialog-component/dialog-component.component';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngs-crud',
@@ -32,32 +33,8 @@ import { MatSort } from '@angular/material/sort';
     MatDialogModule,
     MatCheckboxModule,FormsModule],
   templateUrl: './crud.component.html',
-  styles: [`
-   .mat-paginator {
-    background-color: #ffffff;
-    border-top: 1px solid #e5e7eb;
-    padding: 8px 16px;
-    font-size: 14px;
-    color: #111827; /* أسود غامق */
-  }
-.container-text-color{
-  color:#111827;
-}
-  .mat-paginator-icon {
-    color: #111827 !important; /* أسود غامق للأسهم */
-  }
-
-  ::ng-deep .mat-paginator-range-label,
-  ::ng-deep .mat-paginator-page-size-label,
-   .mat-select-value {
-    color: #111827;
-    font-weight: 500;
-  }
-
-  ::ng-deep .mat-option {
-    font-size: 14px;
-  }
-`],
+  styles: ''
+,
 
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -71,7 +48,7 @@ export class CrudComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog,private router:Router) {}
 
   ngOnInit(): void {
     this.getFiches();
@@ -88,28 +65,59 @@ export class CrudComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
   }
+addNew() {
+  const dialogRef = this.dialog.open(DialogComponentComponent, {
+    width: '600px',
+  });
 
-  addNew() {
-    const dialogRef = this.dialog.open(DialogComponentComponent, {
-      width: '600px',
-      data: null
-    });
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // أنشئ المرجع فقط بعد الحصول على البيانات
+      const ficheRef = doc(collection(this.firestore, 'fiches'));
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) this.getFiches();
-    });
-  }
+      const newFiche = {
+        ...result,
+        status: 'Draft', // الحالة مبدئيًا
+      };
 
-  editFiche(fiche: any) {
-    const dialogRef = this.dialog.open(DialogComponentComponent, {
-      width: '600px',
-      data: fiche
-    });
+      setDoc(ficheRef, newFiche).then(() => {
+        this.router.navigate([`/form/${ficheRef.id}`]); // انتقل للنموذج
+      }).catch(err => {
+        console.error("فشل في إنشاء Fiche:", err);
+      });
+    }
+  });
+}
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) this.getFiches();
-    });
-  }
+
+
+ editFiche(fiche: any) {
+  const dialogRef = this.dialog.open(DialogComponentComponent, {
+    width: '600px',
+    data: fiche
+  });
+
+  dialogRef.afterClosed().subscribe(updatedValues => {
+    if (updatedValues) {
+      const updatedFiche = {
+        ...fiche,
+        ...updatedValues
+      };
+
+      const ficheRef = doc(this.firestore, 'fiches', fiche.id);
+
+      setDoc(ficheRef, updatedFiche)
+        .then(() => {
+          // ✅ بعد التعديل روح على الفورم بتاع الـ ID دا
+          this.router.navigate([`/form/${fiche.id}`]);
+        })
+        .catch(err => console.error('فشل في تحديث Fiche:', err));
+    }
+  });
+}
+
+
+
 
   deleteFiche(id: string) {
     const ficheDoc = doc(this.firestore, 'fiches', id);

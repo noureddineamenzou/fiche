@@ -1,0 +1,993 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md border border-gray-300 mt-10 ">
+
+    <!-- Step Content -->
+    <div *ngIf="currentStep === 0">
+        <!-- Step 1: Informations de base -->
+        <div class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm">
+            <h3 class="text-lg font-bold text-center mb-6">Informations Générales</h3>
+
+            <form [formGroup]="stepOneForm" class="md:grid  flex gap-4 flex-col md:grid-cols-2 md:gap-x-6 md:gap-y-4">
+
+                <!-- Ligne 1 -->
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Niveau Scolaire</label>
+                    <input type="text" formControlName="niveauScolaire"
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Classe</label>
+                    <input type="text" formControlName="classe"
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                </div>
+
+                <!-- Ligne 2 -->
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Matière</label>
+                    <input type="text" formControlName="matiere"
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Filière</label>
+                    <input type="text" formControlName="filiere"
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                </div>
+
+                <!-- Ligne 3 -->
+                <div class="col-span-2">
+                    <label class="block text-sm font-semibold mb-1">Réalisé par</label>
+                    <input type="text" formControlName="realisePar"
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Step 2: Unité  -->
+    <div *ngIf="currentStep === 1">
+        <!-- Step 2: Unité de la leçon -->
+        <div *ngIf="currentStep === 1" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm">
+            <h3 class="text-lg font-bold text-center mb-6">Unité de la leçon</h3>
+
+            <form [formGroup]="stepTwoForm" class="space-y-6">
+
+                <!-- Ligne 1 -->
+                <div class="md:grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Unité</label>
+                        <input type="text" formControlName="unite" class="w-full border border-gray-300 p-2 rounded" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Chapitre</label>
+                        <input type="text" formControlName="chapitre"
+                            class="w-full border border-gray-300 p-2 rounded" />
+                    </div>
+                </div>
+
+                <!-- Ligne 2: Enveloppes horaires -->
+                <div class="md:grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Enveloppe horaire de l’unité</label>
+                        <div class="flex gap-2">
+                            <input type="number" formControlName="dureeUnite"
+                                class="w-2/3 border border-gray-300 p-2 rounded" />
+                            <select formControlName="uniteTimeType" class="w-1/3 border border-gray-300 p-2 rounded">
+                                <option value="min">min</option>
+                                <option value="h">h</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Enveloppe horaire du chapitre</label>
+                        <div class="flex gap-2">
+                            <input type="number" formControlName="dureeChapitre"
+                                class="w-2/3 border border-gray-300 p-2 rounded" />
+                            <select formControlName="chapitreTimeType" class="w-1/3 border border-gray-300 p-2 rounded">
+                                <option value="min">min</option>
+                                <option value="h">h</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Références adoptées -->
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Références adoptées pour la planification de la
+                        leçon</label>
+
+                    <div formArrayName="references" class="space-y-2">
+                        <div *ngFor="let ref of references.controls; let i = index" class="flex gap-2">
+                            <input type="text" [formControlName]="i" class="w-full border border-gray-300 p-2 rounded"
+                                placeholder="Entrer une référence" />
+                            <button type="button" (click)="removeReference(i)"
+                                class="text-red-600 font-bold px-2">×</button>
+                        </div>
+                        <button type="button" (click)="addReference()" class="text-blue-600 text-sm mt-2">+ Ajouter une
+                            référence</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Step 3: Les compétences visées -->
+    <div *ngIf="currentStep === 2" [formGroup]="stepThreeForm"
+        class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm">
+        <h3 class="text-lg font-bold text-center mb-6">les compétences visées</h3>
+
+        <div formGroupName="transversales" class="space-y-6 border border-gray-200 p-4 rounded">
+            <h4 class="text-lg font-semibold mb-2">les compétences transversales</h4>
+
+            <!-- Communicationnelles -->
+            <div formArrayName="communicationnelles" class="border border-gray-200 p-4 rounded">
+                <h4 class="text-md font-semibold mb-2">Les compétences communicationnelles</h4>
+                <div *ngFor="let ctrl of getArray('communicationnelles').controls; let i = index"
+                    class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
+                    <button type="button" (click)="removeTransversale('communicationnelles', i)"
+                        class="text-red-600 font-bold px-2">×</button>
+                </div>
+                <button type="button" (click)="addTransversale('communicationnelles')" class="text-blue-600 text-sm">
+                    + Ajouter une compétence
+                </button>
+            </div>
+
+            <!-- Méthodologiques -->
+            <div formArrayName="methodologiques" class="border border-gray-200 p-4 rounded">
+                <h4 class="text-md font-semibold mb-2">Les compétences méthodologiques</h4>
+                <div *ngFor="let ctrl of getArray('methodologiques').controls; let i = index" class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
+                    <button type="button" (click)="removeTransversale('methodologiques', i)"
+                        class="text-red-600 font-bold px-2">×</button>
+                </div>
+                <button type="button" (click)="addTransversale('methodologiques')" class="text-blue-600 text-sm">
+                    + Ajouter une compétence
+                </button>
+            </div>
+
+            <!-- Stratégiques -->
+            <div formArrayName="strategiques" class="border border-gray-200 p-4 rounded">
+                <h4 class="text-md font-semibold mb-2">Les compétences stratégiques</h4>
+                <div *ngFor="let ctrl of getArray('strategiques').controls; let i = index" class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
+                    <button type="button" (click)="removeTransversale('strategiques', i)"
+                        class="text-red-600 font-bold px-2">×</button>
+                </div>
+                <button type="button" (click)="addTransversale('strategiques')" class="text-blue-600 text-sm">
+                    + Ajouter une compétence
+                </button>
+            </div>
+
+            <!-- Culturelles -->
+            <div formArrayName="culturelles" class="border border-gray-200 p-4 rounded">
+                <h4 class="text-md font-semibold mb-2">Les compétences culturelles</h4>
+                <div *ngFor="let ctrl of getArray('culturelles').controls; let i = index" class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
+                    <button type="button" (click)="removeTransversale('culturelles', i)"
+                        class="text-red-600 font-bold px-2">×</button>
+                </div>
+                <button type="button" (click)="addTransversale('culturelles')" class="text-blue-600 text-sm">
+                    + Ajouter une compétence
+                </button>
+            </div>
+
+            <!-- Technologiques -->
+            <div formArrayName="technologiques" class="border border-gray-200 p-4 rounded">
+                <h4 class="text-md font-semibold mb-2">Les compétences technologiques</h4>
+                <div *ngFor="let ctrl of getArray('technologiques').controls; let i = index" class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
+                    <button type="button" (click)="removeTransversale('technologiques', i)"
+                        class="text-red-600 font-bold px-2">×</button>
+                </div>
+                <button type="button" (click)="addTransversale('technologiques')" class="text-blue-600 text-sm">
+                    + Ajouter une compétence
+                </button>
+            </div>
+        </div>
+
+        <!-- Spécifiques -->
+        <div class="mt-8 border border-gray-200 p-4 rounded">
+            <h4 class="text-lg font-semibold mb-2">Les compétences spécifiques</h4>
+            <div formArrayName="specifiques">
+                <div *ngFor="let ctrl of specifiques.controls; let i = index" class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
+                    <button type="button" (click)="removeSpecifique(i)" class="text-red-600 font-bold px-2">×</button>
+                </div>
+                <button type="button" (click)="addSpecifique()" class="text-blue-600 text-sm">
+                    + Ajouter une compétence spécifique
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 4: Les prérequis -->
+    <div *ngIf="currentStep === 3">
+        <div [formGroup]="stepFourForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm">
+            <h3 class="text-lg font-bold text-center mb-6">Les prérequis</h3>
+
+            <div formArrayName="prerequis">
+                <div *ngFor="let ctrl of prerequis.controls; let i = index" class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded"
+                        placeholder="Entrer un prérequis" />
+                    <button type="button" (click)="removePrerequis(i)" class="text-red-600 font-bold px-2">×</button>
+                </div>
+
+                <button type="button" (click)="addPrerequis()" class="text-blue-600 text-sm mt-2">
+                    + Ajouter un prérequis
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Step 5: Les prolongements -->
+    <div *ngIf="currentStep === 4">
+        <div [formGroup]="stepFiveForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm">
+            <h3 class="text-lg font-bold text-center mb-6">Les prolongements</h3>
+
+            <div formArrayName="prolongements">
+                <div *ngFor="let ctrl of prolongements.controls; let i = index" class="flex gap-2 mb-2">
+                    <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded"
+                        placeholder="Entrer un prolongement" />
+                    <button type="button" (click)="removeprolongement(i)" class="text-red-600 font-bold px-2">×</button>
+                </div>
+
+                <button type="button" (click)="addprolongement()" class="text-blue-600 text-sm mt-2">
+                    + Ajouter un prolongement
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <!-- Step 6 -->
+
+    <div *ngIf="currentStep === 5">
+        <div [formGroup]="stepSixForm" class="space-y-10">
+
+            <!-- Plan / Chapitre -->
+            <div formGroupName="planChapitre" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
+                <input type="text" formControlName="titre" placeholder="Plan / Chapitre" class="border p-2 rounded" />
+                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <select formControlName="unite" class="border p-2 rounded">
+                    <option value="min">min</option>
+                    <option value="h">h</option>
+                </select>
+            </div>
+            <!-- intro-->
+            <div formGroupName="Introduction" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
+                <input type="text" formControlName="titre" placeholder="Introduction" readonly
+                    class="border p-2 rounded bg-gray-100 font-bold" />
+                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <select formControlName="unite" class="border p-2 rounded">
+                    <option value="min">min</option>
+                    <option value="h">h</option>
+                </select>
+            </div>
+
+            <!-- Titre II - Activités -->
+            <div formArrayName="titre2" class="space-y-8">
+
+                <!-- Loop through each Titre section -->
+                <div *ngFor="let section of titre2.controls; let i = index" [formGroupName]="i"
+                    class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
+                    <h4 class="text-xl font-semibold">{{'Titre '+ getRomanNumeral(i) }}</h4>
+                    <!-- Ligne principale ( Titre) -->
+                    <div formGroupName="lignes" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input type="text" formControlName="titre" placeholder="Titre "
+                            class="border p-2 rounded w-full" />
+                        <input type="number" formControlName="duree" placeholder="Durée"
+                            class="border p-2 rounded w-full" />
+                        <select formControlName="unite" class="border p-2 rounded w-full">
+                            <option value="min">min</option>
+                            <option value="h">h</option>
+                        </select>
+                    </div>
+
+                    <!-- Activités -->
+                    <div formArrayName="activites" class="space-y-4">
+                        <div *ngFor="let act of getActivites(i).controls; let j = index" [formGroupName]="j"
+                            class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                            <input type="text" formControlName="titre" placeholder="Activité"
+                                class="border p-2 rounded w-full" />
+                            <input type="number" formControlName="duree" placeholder="Durée"
+                                class="border p-2 rounded w-full" />
+                            <div class="flex gap-2">
+                                <select formControlName="unite" class="border p-2 rounded w-full">
+                                    <option value="min">min</option>
+                                    <option value="h">h</option>
+                                </select>
+                                <button type="button" (click)="removeActivite(i, j)"
+                                    class="text-red-600 font-bold">×</button>
+                            </div>
+                        </div>
+                        <button type="button" (click)="addActivite(i)" class="text-blue-600 text-sm mt-2">+ Ajouter une
+                            activité</button>
+                    </div>
+
+                    <!-- Supprimer Titre -->
+                    <div class="text-right">
+                        <button type="button" (click)="removeTitreSection(i)" class="text-red-600 text-sm underline"
+                            *ngIf="titre2.length > 1">
+                            × Supprimer ce titre
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ajouter nouveau Titre -->
+            <div class="mt-6">
+                <button type="button" (click)="addTitreSection()" class="text-blue-600 text-sm underline">
+                    + Ajouter un nouveau Titre
+                </button>
+            </div>
+
+
+            <!-- Conclusion -->
+            <div formGroupName="conclusion" class="md:grid grid-cols-3 gap-4 border p-4 rounded">
+                <input type="text" formControlName="titre" readonly class="border p-2 rounded bg-gray-100 font-bold" />
+                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <select formControlName="unite" class="border p-2 rounded">
+                    <option value="min">min</option>
+                    <option value="h">h</option>
+                </select>
+            </div>
+
+            <!-- Évaluation Formative -->
+            <div formGroupName="evaluation" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
+                <input type="text" formControlName="titre" readonly class="border p-2 rounded bg-gray-100 font-bold" />
+                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <select formControlName="unite" class="border p-2 rounded">
+                    <option value="min">min</option>
+                    <option value="h">h</option>
+                </select>
+            </div>
+
+            <!-- Soutien -->
+            <div formGroupName="soutien" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
+                <input type="text" formControlName="titre" readonly class="border p-2 rounded bg-gray-100 font-bold" />
+                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <select formControlName="unite" class="border p-2 rounded">
+                    <option value="min">min</option>
+                    <option value="h">h</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Step 7: Les problem -->
+
+    <div *ngIf="currentStep === 6">
+        <div [formGroup]="stepSevenForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
+            <h3 class="text-lg font-bold text-center mb-6">problème & Soutien</h3>
+            <div>
+                <label class="block text-sm font-semibold mb-2">Situation-problème</label>
+                <textarea formControlName="situationProbleme" rows="4" class="w-full border border-gray-300 p-2 rounded"
+                    placeholder="Décrivez ici une situation réelle ou fictive..."></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- Step 8: -->
+    <div *ngIf="currentStep === 7" [formGroup]="stepEightForm" class="space-y-6">
+
+        <!-- Introduction -->
+        <textarea formControlName="introduction" placeholder="Introduction"
+            class="w-full border p-2 rounded"></textarea>
+
+        <!-- Objectifs -->
+        <div formArrayName="objectifs" class="space-y-2">
+            <h4 class="font-semibold">Objectifs d’apprentissage</h4>
+            <div *ngFor="let obj of objectifs.controls; let i = index" class="flex gap-2">
+                <input [formControlName]="i" class="w-full border p-2 rounded" placeholder="Objectif..." />
+                <button type="button" (click)="removeObjectif(i)" class="text-red-600">×</button>
+            </div>
+            <button type="button" (click)="addObjectif()" class="text-blue-600 text-sm">+ Ajouter un
+                objectif</button>
+        </div>
+
+        <!-- Supports pédagogiques -->
+        <div formArrayName="supports" class="space-y-2">
+            <h4 class="font-semibold">Activité de la situation :</h4>
+            <div *ngFor="let support of supports.controls; let i = index" class="flex gap-2">
+                <input [formControlName]="i" class="w-full border p-2 rounded"
+                    placeholder="(exemple : observation d’une vidéo)" />
+                <button type="button" (click)="removeSupport(i)" class="text-red-600">×</button>
+            </div>
+            <button type="button" (click)="addSupport()" class="text-blue-600 text-sm">+ Ajouter un
+                support</button>
+        </div>
+
+        <!-- Bilan-->
+        <textarea formControlName="Bilan" placeholder="Bilan" class="w-full border p-2 rounded"></textarea>
+
+    </div>
+
+    <!-- Step 9 -->
+    <div *ngIf="currentStep === 8" [formGroup]="stepNineForm" class="space-y-8">
+        <div formArrayName="activiteBlocks">
+
+            <div *ngFor="let block of activiteBlocks.controls; let i = index" [formGroupName]="i"
+                class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6 my-5">
+
+                <h4 class="font-bold text-lg mb-4">Planification des séquences didactiques {{ getRomanNumeral(i) }}</h4>
+
+                <!-- Activité Description -->
+                <div formArrayName="activiteDescription" class="space-y-2">
+                    <label class="font-semibold">Planification de séquence didactique {{ getRomanNumeral(i) }}:</label>
+                    <div *ngFor="let desc of getFormArray(i, 'activiteDescription').controls; let j = index"
+                        class="flex gap-2">
+                        <input [formControlName]="j" class="border p-2 rounded w-full"
+                            placeholder="Planification de séquence didactique ..." />
+                        <button type="button" (click)="removeItem(i, 'activiteDescription', j)"
+                            class="text-red-600 font-bold">×</button>
+                    </div>
+                    <button type="button" (click)="addItem(i, 'activiteDescription')"
+                        class="text-blue-600 text-sm mt-1">+ Ajouter une ligne</button>
+                </div>
+
+                <!-- Planification de l’activité -->
+                <div formArrayName="Planificationdeactivite" class="space-y-2">
+                    <label class="font-semibold">Planification de l’activité {{ getRomanNumeral(i) }}</label>
+                    <div *ngFor="let plan of getFormArray(i, 'Planificationdeactivite').controls; let j = index"
+                        class="flex gap-2">
+                        <input [formControlName]="j" class="border p-2 rounded w-full"
+                            placeholder="Planification de l’activité..." />
+                        <button type="button" (click)="removeItem(i, 'Planificationdeactivite', j)"
+                            class="text-red-600 font-bold">×</button>
+                    </div>
+                    <button type="button" (click)="addItem(i, 'Planificationdeactivite')"
+                        class="text-blue-600 text-sm mt-1">+ Ajouter une ligne</button>
+                </div>
+
+                <!-- Objectifs d’apprentissage -->
+                <div formArrayName="Objectifsapprentissage" class="space-y-2">
+                    <h5 class="font-semibold">Les principaux objectifs d’apprentissages de l’activité </h5>
+                    <label class="font-normal">L’apprenant sera capable de :</label>
+                    <div *ngFor="let obj of getFormArray(i, 'Objectifsapprentissage').controls; let j = index"
+                        class="flex gap-2">
+                        <input [formControlName]="j" class="border p-2 rounded w-full " />
+                        <button type="button" (click)="removeItem(i, 'Objectifsapprentissage', j)"
+                            class="text-red-600 font-bold">×</button>
+                    </div>
+                    <button type="button" (click)="addItem(i, 'Objectifsapprentissage')"
+                        class="text-blue-600 text-sm mt-1">+ Ajouter un objectif</button>
+                </div>
+
+                <div class="flex gap-4 pt-4">
+                    <button type="button" (click)="duplicateActiviteBlock(i)" class="text-blue-600 text-sm underline">
+                        + Dupliquer cette activité
+                    </button>
+                    <button *ngIf="activiteBlocks.length > 1" type="button" (click)="removeActiviteBlock(i)"
+                        class="text-red-600 text-sm underline">
+                        × Supprimer cette activité
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Ajouter un nouveau bloc -->
+        <div>
+            <button type="button" (click)="addActiviteBlock()" class="text-blue-600 text-sm underline">
+                + Ajouter une nouvelle activité
+            </button>
+        </div>
+    </div>
+    <!-- Step 10 -->
+    <div *ngIf="currentStep === 9" [formGroup]="stepTenForm" class="space-y-8">
+        <div formArrayName="activiteBlocks">
+
+            <div *ngFor="let block of activiteBlocksImg.controls; let i = index" [formGroupName]="i"
+                class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm mb-5 space-y-6">
+
+                <h4 class="font-bold text-lg">Activité {{ getRomanNumeral(i) }}</h4>
+
+                <textarea formControlName="description" placeholder="Description de l'activité"
+                    class="w-full border p-2 rounded"></textarea>
+
+                <div>
+                    <label class="block font-semibold mb-2">Image (optionnelle)</label>
+
+                    <div class="flex items-center justify-center w-full">
+                        <label for="dropzone-file-{{ i }}"
+                            class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                            <ng-container *ngIf="!block.get('image')?.value; else imagePreview">
+                                <!-- default upload UI -->
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to
+                                            upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500">PNG, JPG, GIF (MAX. 800x400px)</p>
+                                </div>
+                            </ng-container>
+
+                            <ng-template #imagePreview>
+                                <img [src]="block.get('image')?.value" alt="Preview"
+                                    class="absolute inset-0 object-contain w-full h-full rounded-lg" />
+                                <div
+                                    class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-1 text-xs">
+                                    Cliquez pour changer l'image </div>
+                            </ng-template>
+
+                            <input id="dropzone-file-{{ i }}" type="file" class="hidden"
+                                (change)="uploadImage(i, $event)" accept="image/*" />
+                        </label>
+                    </div>
+                </div>
+
+                <h4 class="font-semibold">Productions attendues des apprenants : </h4>
+
+                <div formArrayName="questions" *ngFor="let q of getQuestions(i).controls; let j = index"
+                    class="space-y-2">
+                    <label class="font-semibold block">Question {{j+1}}</label>
+                    <div class="flex gap-2">
+                        <input [formControlName]="j" class="w-full border p-2 rounded" placeholder="Question..." />
+                        <button type="button" (click)="removeQuestion(i, j)" class="text-red-600 font-bold">×</button>
+                    </div>
+                    <button type="button" (click)="addQuestion(i)" class="text-blue-600 text-sm">+ Ajouter une
+                        question</button>
+                </div>
+
+                <label class="font-semibold block">Bilan</label>
+                <textarea formControlName="bilan" placeholder="Bilan de l'activité"
+                    class="w-full border p-2 rounded"></textarea>
+                <label class="font-semibold block">Conclusion</label>
+                <textarea formControlName="conclusion" placeholder="Conclusion de l'activité"
+                    class="w-full border p-2 rounded"></textarea>
+
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <button type="button" (click)="duplicateActiviteBlockimg(i)"
+                        class="text-blue-600 text-sm underline">
+                        + Dupliquer cette activité
+                    </button>
+                    <button *ngIf="activiteBlocksImg.length > 1" type="button" (click)="removeActiviteBlockimg(i)"
+                        class="text-red-600 text-sm underline">
+                        × Supprimer cette activité
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        <div>
+            <button type="button" (click)="addActiviteBlockimg()" class="text-blue-600 text-sm underline">
+                + Ajouter une nouvelle activité
+            </button>
+        </div>
+    </div>
+    <!-- Step 11-->
+
+    <div *ngIf="currentStep === 10">
+        <div [formGroup]="stepElevenForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
+            <div>
+                <label class="block text-sm font-semibold mb-2">Bilan Général</label>
+                <textarea formControlName="BilanGénéral" rows="4" class="w-full border border-gray-300 p-2 rounded"
+                    placeholder="Bilan Général..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 12 -->
+    <div *ngIf="currentStep === 11" [formGroup]="stepTwelveForm"
+        class="space-y-6 border p-6 rounded-lg bg-white shadow-sm">
+
+        <h4 class="font-semibold text-xl">Évaluation</h4>
+
+        <div>
+            <label class="block font-medium mb-1">Charger une image</label>
+
+            <div class="flex flex-col  gap-4">
+                <div class="">
+                    <label for="evaluation-image"
+                        class="flex flex-col items-center justify-center w-full h-full border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                        <div *ngIf="!evaluationImagePreview"
+                            class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <p class="text-sm text-gray-500"><span class="font-semibold">Cliquez pour télécharger</span>
+                                (JPG, PNG...)</p>
+                        </div>
+                        <div *ngIf="evaluationImagePreview" class="w-full h-full flex items-center justify-center">
+                            <img [src]="evaluationImagePreview" alt="Aperçu de l'image"
+                                class="max-w-full max-h-full object-contain p-2" />
+                        </div>
+                        <input id="evaluation-image" type="file" class="hidden"
+                            (change)="onEvaluationImageUpload($event)" accept="image/*" />
+                    </label>
+                </div>
+
+                <div class="flex-1 flex flex-col justify-between">
+                    <div>
+                        <p *ngIf="evaluationImageName" class="text-sm text-gray-600 mb-2">
+                            <span class="font-medium">Image sélectionnée:</span> {{ evaluationImageName }}
+                        </p>
+                        <p *ngIf="!evaluationImageName" class="text-sm text-gray-400 italic">
+                            Aucune image sélectionnée
+                        </p>
+                    </div>
+
+                    <button *ngIf="evaluationImagePreview" (click)="removeEvaluationImage()"
+                        class="mt-4 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 self-start">
+                        Supprimer l'image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Step 13-->
+    <div *ngIf="currentStep === 12" [formGroup]="stepThirteenForm"
+        class="space-y-6 border p-6 rounded-lg bg-white shadow-sm">
+
+        <h4 class="font-semibold text-xl">Soutien</h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <textarea formControlName="description" placeholder="Description du soutien" rows="3"
+                class="border p-2 rounded w-full col-span-1 md:col-span-3"></textarea>
+
+            <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded w-full" />
+
+            <select formControlName="unite" class="border p-2 rounded w-full">
+                <option value="min">min</option>
+                <option value="h">h</option>
+            </select>
+        </div>
+
+    </div>
+    <!-- Step 14: Preview -->
+    <div *ngIf="currentStep === 13" class="space-y-8 p-6 bg-white rounded-lg shadow-sm print:p-0 print:bg-white">
+        <h2 class="text-2xl font-bold text-center mb-6">Aperçu avant impression</h2>
+        <div #printSection class="print-pedagogique">
+            <table class="fiche-table">
+                <!--  1: -->
+                <tr class="row-height-43" style="border-bottom: 3px solid black;">
+                    <td class="cell-209" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Niveau Scolaire:</strong> {{ stepOneForm.value.niveauScolaire }}<br>
+                            <strong>Classe:</strong> {{ stepOneForm.value.classe }}
+                        </p>
+                    </td>
+                    <td class="cell-184" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Matière:</strong> {{ stepOneForm.value.matiere }}<br>
+                            <strong>Filière:</strong> {{ stepOneForm.value.filiere }}
+                        </p>
+                    </td>
+                    <td class="cell-182" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Réalisé Par:</strong> {{ stepOneForm.value.realisePar }}
+                        </p>
+                    </td>
+                </tr>
+
+                <!--  2:   -->
+                <tr class="row-height-56" style="border-bottom: 3px solid black;">
+                    <td colspan="2" class="cell-393" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Unité:</strong> {{ stepTwoForm.value.unite }} ({{ stepTwoForm.value.dureeUnite }} {{
+                            stepTwoForm.value.uniteTimeType }})
+                        </p>
+                        <p class="s1">
+                            <strong>Chapitre:</strong> {{ stepTwoForm.value.chapitre }} ({{
+                            stepTwoForm.value.dureeChapitre }} {{ stepTwoForm.value.chapitreTimeType }})
+                        </p>
+                    </td>
+                    <td class="cell-182" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Références:</strong>
+                        </p>
+                        <ul id="l1" *ngIf="stepTwoForm.value.references?.length">
+                            <li *ngFor="let ref of stepTwoForm.value.references" data-list-text="•">{{ ref }}</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <!--  3:  -->
+                <tr class="row-height-43" style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1" style="text-align: center;">Les compétences visées</p>
+                    </td>
+                </tr>
+                <tr class="row-height-43" style="border-bottom: 3px solid black;">
+                    <td colspan="2" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Les compétences transversales:</strong>
+                        </p>
+                        <div
+                            *ngFor="let type of ['communicationnelles', 'methodologiques', 'strategiques', 'culturelles', 'technologiques']">
+                            <div *ngIf="stepThreeForm.value.transversales[type]?.length">
+                                <p class="s1">{{ type }}:</p>
+                                <ul id="l1">
+                                    <li *ngFor="let c of stepThreeForm.value.transversales[type]" data-list-text="•">{{
+                                        c }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Les compétences spécifiques:</strong>
+                        </p>
+                        <ul id="l1" *ngIf="stepThreeForm.value.specifiques?.length">
+                            <li *ngFor="let c of stepThreeForm.value.specifiques" data-list-text="•">{{ c }}</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <!--  4:   -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1" style="text-align: center;">Les prérequis</p>
+                        <ul id="l1" *ngIf="stepFourForm.value.prerequis?.length">
+                            <li *ngFor="let p of stepFourForm.value.prerequis" data-list-text="•">{{ p }}</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <!--  5:  -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1" style="text-align: center;">Les prolongements</p>
+                        <ul id="l1" *ngIf="stepFiveForm.value.prolongements?.length">
+                            <li *ngFor="let p of stepFiveForm.value.prolongements" data-list-text="•">{{ p }}</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <!--  6:  -->
+                <tr>
+                    <td colspan="3" class="step-six-container ">
+                        <table class="step-six-table ">
+                            <!-- Header Row -->
+                            <tr class="step-six-header-row">
+                                <td class="step-six-duration">
+                                    <p class="s1 text-center">
+                                        {{ stepSixForm.value.planChapitre?.duree || '...' }} {{
+                                        stepSixForm.value.planChapitre?.unite || 'h/min' }}
+                                    </p>
+                                </td>
+                                <td class="step-six-content">
+                                    <p class="s1">
+                                        <strong>Plan/Chapitre : {{ stepSixForm.value.planChapitre?.titre || '………' }} /
+                                            La progression des séquences</strong>
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <!-- Introduction -->
+                            <tr *ngIf="stepSixForm.value.introduction" class="step-six-row">
+                                <td class="step-six-duration">
+                                    <p class="s1 text-center">
+                                        {{ stepSixForm.value.introduction.duree || '...' }} {{
+                                        stepSixForm.value.introduction.unite || 'h/min' }}
+                                    </p>
+                                </td>
+                                <td class="step-six-content">
+                                    <p class="s1">Introduction</p>
+                                </td>
+                            </tr>
+
+                            <!-- Sections & Activities -->
+                            <ng-container *ngFor="let titre of stepSixForm.value.titre2; let i = index">
+                                <!-- Section Title -->
+                                <tr class="step-six-row">
+                                    <td class="step-six-duration">
+                                        <p class="s1 text-center">
+                                            {{ titre.lignes?.duree || '...' }} {{ titre.lignes?.unite || 'h/min' }}
+                                        </p>
+                                    </td>
+                                    <td class="step-six-content">
+                                        <p class="s1">
+                                            <strong>{{ getRomanNumeral(i) }}. {{ titre.lignes?.titre || 'Titre de
+                                                section' }}</strong>
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <!-- Activities -->
+                                <tr *ngFor="let act of titre.activites" class="step-six-row">
+                                    <td class="step-six-duration">
+                                        <p class="s1 text-center">
+                                            {{ act.duree || '...' }} {{ act.unite || 'h/min' }}
+                                        </p>
+                                    </td>
+                                    <td class="step-six-content">
+                                        <p class="s1">Activité : {{ act.titre || '………..' }}</p>
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                            <!-- Conclusion -->
+                            <tr *ngIf="stepSixForm.value.conclusion" class="step-six-row">
+                                <td class="step-six-duration">
+                                    <p class="s1 text-center">
+                                        {{ stepSixForm.value.conclusion.duree || '...' }} {{
+                                        stepSixForm.value.conclusion.unite || 'h/min' }}
+                                    </p>
+                                </td>
+                                <td class="step-six-content">
+                                    <p class="s1"><strong>Conclusion</strong></p>
+                                </td>
+                            </tr>
+
+                            <!-- Evaluation -->
+                            <tr *ngIf="stepSixForm.value.evaluation" class="step-six-row">
+                                <td class="step-six-duration">
+                                    <p class="s1 text-center">
+                                        {{ stepSixForm.value.evaluation.duree || '...' }} {{
+                                        stepSixForm.value.evaluation.unite || 'h/min' }}
+                                    </p>
+                                </td>
+                                <td class="step-six-content">
+                                    <p class="s1"><strong>Évaluation Formative</strong></p>
+                                </td>
+                            </tr>
+
+                            <!-- Soutien -->
+                            <tr *ngIf="stepSixForm.value.soutien" class="step-six-footer-row">
+                                <td class="step-six-duration">
+                                    <p class="s1 text-center">
+                                        {{ stepSixForm.value.soutien.duree || '...' }} {{
+                                        stepSixForm.value.soutien.unite || 'h/min' }}
+                                    </p>
+                                </td>
+                                <td class="step-six-content">
+                                    <p class="s1"><strong>Soutien</strong></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <!--  7:   -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1" style="text-align: center;">Situation - problème :</p>
+                        <p class="s1">{{ stepSevenForm.value.situationProbleme }}</p>
+                    </td>
+                </tr>
+
+                <!--  8:  -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Introduction</strong><br>
+                            {{ stepEightForm.value.introduction }}
+                        </p>
+                        <p class="s1">
+                            <strong>Objectifs d'apprentissages de l'activité :</strong>
+                        </p>
+                        <ul id="l1">
+                            <li *ngFor="let o of stepEightForm.value.objectifs" data-list-text="•">{{ o }}</li>
+                        </ul>
+                        <p class="s1">
+                            <strong>Activité de la situation :</strong> (exemple : observation d'une vidéo)
+                        </p>
+                        <p class="s1">
+                            <strong>Bilan:</strong> {{ stepEightForm.value.Bilan }}
+                        </p>
+                    </td>
+                </tr>
+
+                <!--  9:   -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1" style="text-align: center;">Planification des séquences didactiques</p>
+                        <div *ngIf="stepNineForm.value.activiteBlocks?.length">
+                            <div *ngFor="let bloc of stepNineForm.value.activiteBlocks; let i = index">
+                                <p class="s1"><strong>Bloc {{ getRomanNumeral(i) }}</strong></p>
+                                <ul *ngIf="bloc.activiteDescription?.length">
+                                    <li *ngFor="let item of bloc.activiteDescription">{{ item }}</li>
+                                </ul>
+                                <ul *ngIf="bloc.Planificationdeactivite?.length">
+                                    <li *ngFor="let item of bloc.Planificationdeactivite">{{ item }}</li>
+                                </ul>
+                                <ul *ngIf="bloc.Objectifsapprentissage?.length">
+                                    <li *ngFor="let item of bloc.Objectifsapprentissage">{{ item }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <!--  10:   -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <div *ngIf="stepTenForm.value.activiteBlocks?.length">
+                            <div *ngFor="let activite of stepTenForm.value.activiteBlocks; let i = index">
+                                <p class="s1">
+                                    <strong>Activité {{ getRomanNumeral(i) }} : (Document)</strong>
+                                </p>
+                                <img *ngIf="activite.image" [src]="activite.image"
+                                    style="max-width: 100%; height: auto; margin: 10px 0;">
+                                <p class="s1">
+                                    <strong>Description:</strong> {{ activite.description }}
+                                </p>
+                                <p class="s1">
+                                    <strong>Questions:</strong>
+                                </p>
+                                <ol>
+                                    <li *ngFor="let q of activite.questions">{{ q }}</li>
+                                </ol>
+                                <p class="s1">
+                                    <strong>Bilan:</strong> {{ activite.bilan }}
+                                </p>
+                                <p class="s1">
+                                    <strong>Conclusion:</strong> {{ activite.conclusion }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <!--  11:   -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Bilan Général:</strong><br>
+                            {{ stepElevenForm.value['BilanGénéral'] }}
+                        </p>
+                    </td>
+                </tr>
+
+                <!--  12:  -->
+                <tr style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Évaluation:</strong> {{ evaluationFileName }}
+                        </p>
+                    </td>
+                </tr>
+
+                <!--  13:  -->
+                <tr *ngIf="stepThirteenForm.value.description" style="border-bottom: 3px solid black;">
+                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+                        <p class="s1">
+                            <strong>Soutien:</strong> {{ stepThirteenForm.value.description }}<br>
+                            <strong>Durée:</strong> {{ stepThirteenForm.value.duree }} {{ stepThirteenForm.value.unite
+                            }}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+
+        <div class="flex justify-between mt-8 print:hidden">
+  <button (click)="previousStep()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+    Retour
+  </button>
+
+  <div class="flex gap-4">
+    <button (click)="print()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+      Download
+    </button>
+  </div>
+</div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-between mt-8">
+        <button (click)="previousStep()" [disabled]="currentStep === 0" [class.hidden]="currentStep === 13"
+            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer">
+            Précédent
+        </button>
+        <button (click)="nextStep()" [disabled]="currentStep === 13" [class.hidden]="currentStep === 13"
+            class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            Suivant
+        </button>
+    </div>
+</div>

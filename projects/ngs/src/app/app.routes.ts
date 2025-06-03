@@ -5,6 +5,7 @@ import {
 } from '@angular/fire/auth-guard';
 import { Routes } from '@angular/router';
 import { CrudComponent } from './crud/components/crud/crud.component';
+import { FormComponent } from './crud/components/form/form.component';
 
 
 
@@ -41,11 +42,13 @@ export const routes: Routes = [
                     import('./crud/components/crud/crud.component').then(m => m.CrudComponent),
                   ...canActivate(redirectUnauthorizedToLogin),
 
-            },
+            },{ path: 'dashboard', component: CrudComponent },
+  { path: 'form/:id', component: FormComponent },
             {
                 path: '**',
                 loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent),
             },
         ],
-    },
+    },{ path: 'dashboard', component: CrudComponent },
+  { path: 'form/:id', component: FormComponent },
 ];

@@ -26,7 +26,6 @@ import { inject } from '@angular/core';
 })
 export class DialogComponentComponent {
   form: FormGroup;
-  firestore: Firestore = inject(Firestore);
 
   constructor(
     private fb: FormBuilder,
@@ -39,20 +38,13 @@ export class DialogComponentComponent {
       status: [data?.status || 'draft']
     });
   }
+async save() {
+  if (this.form.invalid) return;
 
-  async save() {
-    if (this.form.invalid) return;
+  const formValue = this.form.value;
 
-    const formValue = this.form.value;
-    const ficheId = this.data?.id || Date.now().toString();
-
-    await setDoc(doc(this.firestore, 'fiches', ficheId), {
-      id: ficheId,
-      ...formValue
-    });
-
-    this.dialogRef.close(true);
-  }
+  this.dialogRef.close(formValue); // << رجّع القيم اللي كتبها المستخدم
+}
 
   cancel() {
     this.dialogRef.close(false);

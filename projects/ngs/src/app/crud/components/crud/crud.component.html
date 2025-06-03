@@ -1,24 +1,27 @@
 <div class="p-4 bg-white rounded shadow-md">
   <!-- Header + Search -->
-  <div class="flex justify-between items-center mb-4">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
     <div>
       <h2 class="text-2xl font-bold text-green-700">Fiches</h2>
       <p class="text-sm text-gray-500">Gestion Des Fiches</p>
     </div>
-    <div class="flex gap-2 items-center">
-      <input [formControl]="searchControl" placeholder="Search..." class="border px-4 py-2 rounded w-64 shadow-sm focus:outline-none" />
-      <button mat-fab color="primary" (click)="addNew()">
+    <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+      <input 
+        [formControl]="searchControl" 
+        placeholder="Search..." 
+        class="border px-4 py-2 rounded w-full sm:w-64 shadow-sm focus:outline-none" />
+      <button mat-fab color="primary" (click)="addNew()" class="self-start sm:self-auto">
         <mat-icon>add</mat-icon>
       </button>
     </div>
   </div>
 
   <!-- Table -->
-  <div class="overflow-auto bg-white rounded border border-gray-200 text-black">
-    <table mat-table [dataSource]="dataSource" matSort class="w-full bg-white ">
+  <div class="overflow-x-auto rounded border border-gray-200">
+    <table mat-table [dataSource]="dataSource" matSort class="min-w-full bg-white">
 
       <!-- Checkbox Column -->
-      <ng-container matColumnDef="select" class="bg-green-100 text-gray-100">
+      <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef class="bg-green-100">
           <mat-checkbox (change)="toggleSelectAll($event)"></mat-checkbox>
         </th>
@@ -30,13 +33,13 @@
       <!-- ID -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> ID </th>
-        <td mat-cell *matCellDef="let element" class="text-black"> {{element.id}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
       </ng-container>
 
       <!-- Name -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Name </th>
-        <td mat-cell *matCellDef="let element" class="text-black"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
       <!-- Level -->
@@ -51,13 +54,13 @@
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Status </th>
         <td mat-cell *matCellDef="let element">
-          <span [ngClass]="element.isDraft ? 'text-yellow-600' : 'text-green-600'">
-            {{element.isDraft ? 'Draft' : 'Completed'}}
+          <span [ngClass]="element.status=='draft' ? 'text-yellow-600' : 'text-green-600'">
+            {{element.status =='draft'? 'Draft' : 'Completed'}}
           </span>
         </td>
       </ng-container>
 
-      <!-- Actions Dropdown -->
+      <!-- Actions -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Actions </th>
         <td mat-cell *matCellDef="let element">
@@ -77,13 +80,12 @@
         </td>
       </ng-container>
 
-      <!-- Header and Rows -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-green-800"></tr>
+      <!-- Table Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
 
   <!-- Pagination -->
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" showFirstLastButtons></mat-paginator>
-
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>

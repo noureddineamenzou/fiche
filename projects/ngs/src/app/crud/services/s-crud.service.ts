@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, deleteDoc, doc, updateDoc, CollectionReference, DocumentData } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, addDoc, deleteDoc, doc, updateDoc, CollectionReference, DocumentData, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { IForm } from '../interfaces/i-form';
 
@@ -31,4 +31,9 @@ export class SCrudService {
     const ficheDoc = doc(this.firestore, `fiches/${id}`);
     return deleteDoc(ficheDoc);
   }
+  updateFicheData(id: string, data: any) {
+  const ficheRef = doc(this.firestore, 'fiches', id);
+  return setDoc(ficheRef, data, { merge: true });  // مهم جدًا علشان مايمسحش البيانات القديمة
+}
+
 }
