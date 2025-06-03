@@ -147,3 +147,7 @@ border-top: 0;
 ::placeholder {
   opacity: 0.5;
 }
+.required-label::after {
+    content: " *";
+    color: red;
+  }

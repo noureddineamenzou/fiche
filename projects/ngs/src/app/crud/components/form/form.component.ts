@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
@@ -10,9 +10,21 @@ import { SCrudService } from '../../services/s-crud.service';
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, NgFor, NgIf],
   templateUrl: './form.component.html',
-  styles: ['']
+styles: [`
+  label::after,h4::after,h3::after {
+    content: " *";
+    color: red;
+  }
+
+  .error-message {
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+  }
+`]
+
 })
-export class FormComponent implements OnInit{
+export class FormComponent implements OnInit {
   currentStep = 0;
 
   steps = [
@@ -50,190 +62,234 @@ export class FormComponent implements OnInit{
   formBase: any = {};
   ficheId!: string;
 
-  constructor(private fb: FormBuilder,private ficheService: SCrudService,private route:ActivatedRoute, private firestore: Firestore
-) {
+  constructor(
+    private fb: FormBuilder,
+    private ficheService: SCrudService,
+    private route: ActivatedRoute,
+    private firestore: Firestore
+  ) {
     this.stepOneForm = this.fb.group({
-      niveauScolaire: [''],
-      classe: [''],
-      matiere: [''],
-      filiere: [''],
-      realisePar: ['']
+      niveauScolaire: ['', Validators.required],
+      classe: ['', Validators.required],
+      matiere: ['', Validators.required],
+      filiere: ['', Validators.required],
+      realisePar: ['', Validators.required]
     });
 
     this.stepTwoForm = this.fb.group({
-      unite: [''],
-      chapitre: [''],
-      dureeUnite: [''],
-      uniteTimeType: ['min'],
-      dureeChapitre: [''],
-      chapitreTimeType: ['min'],
-      references: this.fb.array([this.fb.control('')])
+      unite: ['', Validators.required],
+      chapitre: ['', Validators.required],
+      dureeUnite: ['', Validators.required],
+      uniteTimeType: ['min', Validators.required],
+      dureeChapitre: ['', Validators.required],
+      chapitreTimeType: ['min', Validators.required],
+      references: this.fb.array([this.fb.control('', Validators.required)])
     });
 
     this.stepThreeForm = this.fb.group({
       transversales: this.fb.group({
-        communicationnelles: this.fb.array([this.fb.control('')]),
-        methodologiques: this.fb.array([this.fb.control('')]),
-        strategiques: this.fb.array([this.fb.control('')]),
-        culturelles: this.fb.array([this.fb.control('')]),
-        technologiques: this.fb.array([this.fb.control('')]),
+        communicationnelles: this.fb.array([this.fb.control('', Validators.required)]),
+        methodologiques: this.fb.array([this.fb.control('', Validators.required)]),
+        strategiques: this.fb.array([this.fb.control('', Validators.required)]),
+        culturelles: this.fb.array([this.fb.control('', Validators.required)]),
+        technologiques: this.fb.array([this.fb.control('', Validators.required)])
       }),
-      specifiques: this.fb.array([this.fb.control('')])
+      specifiques: this.fb.array([this.fb.control('', Validators.required)])
     });
 
     this.stepFourForm = this.fb.group({
-      prerequis: this.fb.array([this.fb.control('')])
+      prerequis: this.fb.array([this.fb.control('', Validators.required)])
     });
 
     this.stepFiveForm = this.fb.group({
-      prolongements: this.fb.array([this.fb.control('')])
+      prolongements: this.fb.array([this.fb.control('', Validators.required)])
     });
 
     this.stepSixForm = this.fb.group({
       planChapitre: this.fb.group({
-        titre: [''],
-        duree: [''],
-        unite: ['min']
+        titre: ['', Validators.required],
+        duree: ['', Validators.required],
+        unite: ['min', Validators.required]
       }),
       Introduction: this.fb.group({
-        titre: ['Introduction'],
-        duree: [''],
-        unite: ['min']
+        titre: ['Introduction', Validators.required],
+        duree: ['', Validators.required],
+        unite: ['min', Validators.required]
       }),
-
       titre2: this.fb.array([
-        this.createTitreSection()
+        this.createTitreSection(true)
       ]),
-
       conclusion: this.fb.group({
-        titre: ['Conclusion'],
-        duree: [''],
-        unite: ['min']
+        titre: ['Conclusion', Validators.required],
+        duree: ['', Validators.required],
+        unite: ['min', Validators.required]
       }),
-
       evaluation: this.fb.group({
-        titre: ['Évaluation formative'],
-        duree: [''],
-        unite: ['min']
+        titre: ['Évaluation formative', Validators.required],
+        duree: ['', Validators.required],
+        unite: ['min', Validators.required]
       }),
-
       soutien: this.fb.group({
-        titre: ['Soutien'],
-        duree: [''],
-        unite: ['min']
+        titre: ['Soutien', Validators.required],
+        duree: ['', Validators.required],
+        unite: ['min', Validators.required]
       })
     });
 
     this.stepSevenForm = this.fb.group({
-      situationProbleme: ['']
+      situationProbleme: ['', Validators.required]
     });
 
     this.stepEightForm = this.fb.group({
-      introduction: [''],
-      objectifs: this.fb.array([this.fb.control('')]),
-      supports: this.fb.array([this.fb.control('')]),
-      Bilan: [''],
+      introduction: ['', Validators.required],
+      objectifs: this.fb.array([this.fb.control('', Validators.required)]),
+      supports: this.fb.array([this.fb.control('', Validators.required)]),
+      Bilan: ['', Validators.required],
     });
+
     this.stepNineForm = this.fb.group({
       activiteBlocks: this.fb.array([
-        this.createActiviteBlock()
+        this.createActiviteBlock(true)
       ])
     });
+
     this.stepTenForm = this.fb.group({
       activiteBlocks: this.fb.array([
-        this.createActiviteBlockimg()
+        this.createActiviteBlockimg(true)
       ])
     });
+
     this.stepElevenForm = this.fb.group({
-      BilanGénéral: ['']
+      BilanGénéral: ['', Validators.required]
     });
+
     this.stepTwelveForm = this.fb.group({
-      evaluationFile: [null]
-    
+      evaluationImage: [null, Validators.required]
     });
+
     this.stepThirteenForm = this.fb.group({
-      description: [''],
-      duree: [''],
-      unite: ['min']
+      description: ['', Validators.required],
+      duree: ['', Validators.required],
+      unite: ['min', Validators.required]
     });
-
-  }
-ngOnInit(): void {
-  this.ficheId = this.route.snapshot.paramMap.get('id')!;
-  if (this.ficheId) {
-    this.loadFicheData(this.ficheId);
   }
 
-  // اربط كل نموذج بـ valueChanges علشان يتحفظ تلقائيًا
-  const forms = [
-    { name: 'stepOneForm', form: this.stepOneForm },
-    { name: 'stepTwoForm', form: this.stepTwoForm },
-    { name: 'stepThreeForm', form: this.stepThreeForm },
-    { name: 'stepFourForm', form: this.stepFourForm },
-    { name: 'stepFiveForm', form: this.stepFiveForm },
-    { name: 'stepSixForm', form: this.stepSixForm },
-    { name: 'stepSevenForm', form: this.stepSevenForm },
-    { name: 'stepEightForm', form: this.stepEightForm },
-    { name: 'stepNineForm', form: this.stepNineForm },
-    { name: 'stepTenForm', form: this.stepTenForm },
-    { name: 'stepElevenForm', form: this.stepElevenForm },
-    { name: 'stepTwelveForm', form: this.stepTwelveForm },
-    { name: 'stepThirteenForm', form: this.stepThirteenForm }
-  ];
-
-  forms.forEach(({ name, form }) => {
-    form.valueChanges.subscribe(value => {
-      this.onStepFormChanged(name, value);
-    });
-  });
-}
-
-onStepFormChanged(stepName: string, formValue: any) {
-  this.formBase[stepName] = formValue;
-
-  this.ficheService.updateFicheData(this.ficheId, this.formBase)
-    
-}
-
-loadFicheData(id: string) {
-  const ficheDoc = doc(this.firestore, 'fiches', id);
-  getDoc(ficheDoc).then(docSnapshot => {
-    if (docSnapshot.exists()) {
-      const data = docSnapshot.data();
-      this.formBase = data || {};
-
-      this.stepOneForm.patchValue(data['stepOneForm'] || {});
-      this.stepTwoForm.patchValue(data['stepTwoForm'] || {});
-      this.stepThreeForm.patchValue(data['stepThreeForm'] || {});
-      this.stepFourForm.patchValue(data['stepFourForm'] || {});
-      this.stepFiveForm.patchValue(data['stepFiveForm'] || {});
-      this.stepSixForm.patchValue(data['stepSixForm'] || {});
-      this.stepSevenForm.patchValue(data['stepSevenForm'] || {});
-      this.stepEightForm.patchValue(data['stepEightForm'] || {});
-      this.stepNineForm.patchValue(data['stepNineForm'] || {});
-      this.stepTenForm.patchValue(data['stepTenForm'] || {});
-      this.stepElevenForm.patchValue(data['stepElevenForm'] || {});
-      this.stepTwelveForm.patchValue(data['stepTwelveForm'] || {});
-      this.stepThirteenForm.patchValue(data['stepThirteenForm'] || {});
+  ngOnInit(): void {
+    this.ficheId = this.route.snapshot.paramMap.get('id')!;
+    if (this.ficheId) {
+      this.loadFicheData(this.ficheId);
     }
-  });
-}
+
+    // اربط كل نموذج بـ valueChanges علشان يتحفظ تلقائيًا
+    const forms = [
+      { name: 'stepOneForm', form: this.stepOneForm },
+      { name: 'stepTwoForm', form: this.stepTwoForm },
+      { name: 'stepThreeForm', form: this.stepThreeForm },
+      { name: 'stepFourForm', form: this.stepFourForm },
+      { name: 'stepFiveForm', form: this.stepFiveForm },
+      { name: 'stepSixForm', form: this.stepSixForm },
+      { name: 'stepSevenForm', form: this.stepSevenForm },
+      { name: 'stepEightForm', form: this.stepEightForm },
+      { name: 'stepNineForm', form: this.stepNineForm },
+      { name: 'stepTenForm', form: this.stepTenForm },
+      { name: 'stepElevenForm', form: this.stepElevenForm },
+      { name: 'stepTwelveForm', form: this.stepTwelveForm },
+      { name: 'stepThirteenForm', form: this.stepThirteenForm }
+    ];
+
+    forms.forEach(({ name, form }) => {
+      form.valueChanges.subscribe(value => {
+        this.onStepFormChanged(name, value);
+      });
+    });
+  }
+
+  onStepFormChanged(stepName: string, formValue: any) {
+    this.formBase[stepName] = formValue;
+
+    this.ficheService.updateFicheData(this.ficheId, this.formBase)
+
+  }
+
+  loadFicheData(id: string) {
+    const ficheDoc = doc(this.firestore, 'fiches', id);
+    getDoc(ficheDoc).then(docSnapshot => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        this.formBase = data || {};
+
+        this.stepOneForm.patchValue(data['stepOneForm'] || {});
+        this.stepTwoForm.patchValue(data['stepTwoForm'] || {});
+        this.stepThreeForm.patchValue(data['stepThreeForm'] || {});
+        this.stepFourForm.patchValue(data['stepFourForm'] || {});
+        this.stepFiveForm.patchValue(data['stepFiveForm'] || {});
+        this.stepSixForm.patchValue(data['stepSixForm'] || {});
+        this.stepSevenForm.patchValue(data['stepSevenForm'] || {});
+        this.stepEightForm.patchValue(data['stepEightForm'] || {});
+        this.stepNineForm.patchValue(data['stepNineForm'] || {});
+        this.stepTenForm.patchValue(data['stepTenForm'] || {});
+        this.stepElevenForm.patchValue(data['stepElevenForm'] || {});
+        this.stepTwelveForm.patchValue(data['stepTwelveForm'] || {});
+        this.stepThirteenForm.patchValue(data['stepThirteenForm'] || {});
+      }
+    });
+  }
 
   goToStep(index: number) {
     this.currentStep = index;
   }
 
   nextStep() {
-    if (this.currentStep < this.steps.length - 1) {
-      this.currentStep++;
-    } else {
-      console.log('done', {
-        stepOne: this.stepOneForm.value,
-        stepTwo: this.stepTwoForm.value,
-        stepThree: this.stepThreeForm.value,
-      });
-    }
+  const currentForm = this.getCurrentForm();
+
+
+  if (currentForm.invalid) {
+      console.log(currentForm.errors, currentForm);
+  alert('من فضلك املأ كل الحقول المطلوبة في هذه الخطوة.');
+
+    currentForm.markAllAsTouched(); // علشان يظهر الأخطاء للمستخدم
+    return; // متتنقلش للخطوة التالية
   }
+
+  if (this.currentStep < this.steps.length - 1) {
+    this.currentStep++;
+  } else {
+    console.log('done', {
+      stepOne: this.stepOneForm.value,
+      stepTwo: this.stepTwoForm.value,
+      stepThree: this.stepThreeForm.value,
+      stepFour: this.stepFourForm.value,
+      stepFive: this.stepFiveForm.value,
+      stepSix: this.stepSixForm.value,
+      stepSeven: this.stepSevenForm.value,
+      stepEight: this.stepEightForm.value,
+      stepNine: this.stepNineForm.value,
+      stepTen: this.stepTenForm.value,
+      stepEleven: this.stepElevenForm.value,
+      stepThirteen: this.stepThirteenForm.value,
+      stepTwelve: this.stepTwelveForm.value,
+    });
+  }
+}
+getCurrentForm(): FormGroup {
+  switch (this.currentStep) {
+    case 0: return this.stepOneForm;
+    case 1: return this.stepTwoForm;
+    case 2: return this.stepThreeForm;
+    case 3: return this.stepFourForm;
+    case 4: return this.stepFiveForm;
+    case 5: return this.stepSixForm;
+    case 6: return this.stepSevenForm;
+    case 7: return this.stepEightForm;
+    case 8: return this.stepNineForm;
+    case 9: return this.stepTenForm;
+    case 10: return this.stepElevenForm;
+    case 11: return this.stepTwelveForm;
+    case 12: return this.stepThirteenForm;
+    default: return this.stepOneForm;
+  }
+}
+
 
   previousStep() {
     if (this.currentStep > 0) {
@@ -307,22 +363,18 @@ loadFicheData(id: string) {
     this.prolongements.removeAt(index);
   }
   //step six
-  createTitreSection(): FormGroup {
-    return this.fb.group({
-      lignes: this.fb.group({
-        titre: [''],
-        duree: [''],
-        unite: ['min']
-      }),
-      activites: this.fb.array([
-        this.fb.group({
-          titre: [''],
-          duree: [''],
-          unite: ['min']
-        })
-      ])
-    });
-  }
+  createTitreSection(required = false): FormGroup {
+  return this.fb.group({
+    lignes: this.fb.group({
+      titre: ['', required ? Validators.required : []],
+      duree: ['', required ? Validators.required : []],
+      unite: ['min', required ? Validators.required : []]
+    }),
+    activites: this.fb.array([])
+  });
+}
+
+
 
   get titre2(): FormArray {
     return this.stepSixForm.get('titre2') as FormArray;
@@ -379,14 +431,16 @@ loadFicheData(id: string) {
   }
 
   //step9
-  createActiviteBlock(): FormGroup {
+  createActiviteBlock(required = false): FormGroup {
+    const validator = required ? Validators.required : null;
     return this.fb.group({
-      activiteDescription: this.fb.array([this.fb.control('')]),
-      Planificationdeactivite: this.fb.array([this.fb.control('')]),
-      Objectifsapprentissage: this.fb.array([this.fb.control('')]),
-
+      activiteDescription: this.fb.array([this.fb.control('', validator)]),
+      Planificationdeactivite: this.fb.array([this.fb.control('', validator)]),
+      Objectifsapprentissage: this.fb.array([this.fb.control('', validator)])
     });
   }
+
+
   get activiteBlocks(): FormArray {
     return this.stepNineForm.get('activiteBlocks') as FormArray;
   }
@@ -394,24 +448,21 @@ loadFicheData(id: string) {
   addActiviteBlock() {
     this.activiteBlocks.push(this.createActiviteBlock());
   }
-
+ 
   removeActiviteBlock(i: number) {
     if (this.activiteBlocks.length > 1) {
       this.activiteBlocks.removeAt(i);
     }
   }
-  duplicateActiviteBlock(i: number) {
+    duplicateActiviteBlock(i: number) {
     const original = this.activiteBlocks.at(i).value;
     this.activiteBlocks.push(this.fb.group({
-
       activiteDescription: this.fb.array(original.activiteDescription.map((o: string) => this.fb.control(o))),
-
       Planificationdeactivite: this.fb.array(original.Planificationdeactivite.map((s: string) => this.fb.control(s))),
-
-      Objectifsapprentissage: this.fb.array(original.Objectifsapprentissage.map((p: string) => this.fb.control(p))),
-
+      Objectifsapprentissage: this.fb.array(original.Objectifsapprentissage.map((p: string) => this.fb.control(p)))
     }));
   }
+
   getFormArray(blockIndex: number, fieldName: string): FormArray {
     return this.activiteBlocks.at(blockIndex).get(fieldName) as FormArray;
   }
@@ -424,16 +475,18 @@ loadFicheData(id: string) {
     this.getFormArray(blockIndex, fieldName).removeAt(itemIndex);
   }
   //step10
-  createActiviteBlockimg(): FormGroup {
+  createActiviteBlockimg(required: boolean = false): FormGroup {
+    const validator = required ? Validators.required : null;
+
     return this.fb.group({
-      activiteTitle: [''],
-      description: [''],
+      description: ['', validator],
       image: [''],
-      questions: this.fb.array([this.fb.control('')]),
-      bilan: [''],
-      conclusion: ['']
+      questions: this.fb.array([this.fb.control('', validator)]),
+      bilan: ['', validator],
+      conclusion: ['', validator]
     });
   }
+
 
   get activiteBlocksImg(): FormArray {
     return this.stepTenForm.get('activiteBlocks') as FormArray;
@@ -462,23 +515,34 @@ loadFicheData(id: string) {
   }
 
   uploadImage(blockIndex: number, event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files || !input.files.length) return;
+  const input = event.target as HTMLInputElement;
+  if (!input.files || !input.files.length) return;
 
-    const file = input.files[0];
-    const allowedTypes = ['image/jpeg', 'image/png'];
+  const file = input.files[0];
+  const allowedTypes = ['image/jpeg', 'image/png'];
 
-    if (!allowedTypes.includes(file.type)) {
-      alert('JPEG or PNG.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.activiteBlocksImg.at(blockIndex).get('image')?.setValue(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+  if (!allowedTypes.includes(file.type)) {
+    alert('يرجى رفع صورة بصيغة JPEG أو PNG.');
+    return;
   }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const control = this.activiteBlocksImg.at(blockIndex).get('image');
+    control?.setValue(reader.result as string);
+    control?.markAsDirty();
+    control?.markAsTouched();
+    control?.updateValueAndValidity();
+
+    // جرب تنتقل لو النموذج صالح
+    if (this.stepTenForm.valid) {
+      this.nextStep();
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+
 
   duplicateActiviteBlockimg(index: number): void {
     const originalBlock = this.activiteBlocksImg.at(index).value;
@@ -494,36 +558,46 @@ loadFicheData(id: string) {
   }
 
   //step11
-evaluationImagePreview: string | ArrayBuffer | null = null;
-evaluationImageName: string = '';
+  evaluationImagePreview: string | ArrayBuffer | null = null;
+evaluationImageName: string = ''; // ← بدل evaluationFileName
 
 onEvaluationImageUpload(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-        this.evaluationImageName = file.name;
-        
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.evaluationImagePreview = e.target?.result as string;
-        };
-        reader.readAsDataURL(file);
-        
-        this.stepTwelveForm.patchValue({
-            evaluationImage: file
-        });
-    }
-}
-removeEvaluationImage() {
-    this.evaluationImagePreview = null;
-    this.evaluationImageName = '';
+  const file = event.target.files[0];
+  if (file) {
+    this.evaluationImageName = file.name; // ← حفظ اسم الصورة
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.evaluationImagePreview = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+
     this.stepTwelveForm.patchValue({
-        evaluationImage: null
+      evaluationImage: file
     });
-    const input = document.getElementById('evaluation-image') as HTMLInputElement;
-    if (input) {
-        input.value = '';
-    }
+
+    // ← في حالة تحب تحديث الـ validity مباشرة بعد التغيير:
+    this.stepTwelveForm.get('evaluationImage')?.updateValueAndValidity();
+  }
 }
+
+removeEvaluationImage() {
+  this.evaluationImagePreview = null;
+  this.evaluationImageName = '';
+
+  this.stepTwelveForm.patchValue({
+    evaluationImage: null
+  });
+
+  // تحديث صلاحية الفورم
+  this.stepTwelveForm.get('evaluationImage')?.updateValueAndValidity();
+
+  const input = document.getElementById('evaluation-image') as HTMLInputElement;
+  if (input) {
+    input.value = '';
+  }
+}
+
   //revison
 
   submitAllForms() {
@@ -553,13 +627,13 @@ removeEvaluationImage() {
     }, 1500);
   }
   markFicheAsCompleted() {
-  this.ficheService.updateFicheData(this.ficheId, { status: 'Completed' })
-    
-}
+    this.ficheService.updateFicheData(this.ficheId, { status: 'Completed' })
+
+  }
 
   print() {
     window.print();
-  this.markFicheAsCompleted(); // تحديث الحالة بعد الطباعة
+    this.markFicheAsCompleted(); // تحديث الحالة بعد الطباعة
 
   }
 }

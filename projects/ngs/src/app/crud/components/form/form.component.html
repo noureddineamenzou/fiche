@@ -10,33 +10,33 @@
 
                 <!-- Ligne 1 -->
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Niveau Scolaire</label>
+                    <label class="required-field block text-sm font-semibold mb-1">Niveau Scolaire</label>
                     <input type="text" formControlName="niveauScolaire"
                         class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Classe</label>
+                    <label class="required-field block text-sm font-semibold mb-1">Classe</label>
                     <input type="text" formControlName="classe"
                         class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </div>
 
                 <!-- Ligne 2 -->
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Matière</label>
+                    <label class="required-field block text-sm font-semibold mb-1">Matière</label>
                     <input type="text" formControlName="matiere"
                         class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Filière</label>
+                    <label class="required-field block text-sm font-semibold mb-1">Filière</label>
                     <input type="text" formControlName="filiere"
                         class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </div>
 
                 <!-- Ligne 3 -->
                 <div class="col-span-2">
-                    <label class="block text-sm font-semibold mb-1">Réalisé par</label>
+                    <label class="required-field block text-sm font-semibold mb-1">Réalisé par</label>
                     <input type="text" formControlName="realisePar"
                         class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </div>
@@ -56,11 +56,11 @@
                 <!-- Ligne 1 -->
                 <div class="md:grid grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-semibold mb-1">Unité</label>
+                        <label class="required-field block text-sm font-semibold mb-1">Unité</label>
                         <input type="text" formControlName="unite" class="w-full border border-gray-300 p-2 rounded" />
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold mb-1">Chapitre</label>
+                        <label class="required-field block text-sm font-semibold mb-1">Chapitre</label>
                         <input type="text" formControlName="chapitre"
                             class="w-full border border-gray-300 p-2 rounded" />
                     </div>
@@ -69,7 +69,7 @@
                 <!-- Ligne 2: Enveloppes horaires -->
                 <div class="md:grid grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-semibold mb-1">Enveloppe horaire de l’unité</label>
+                        <label class="required-field block text-sm font-semibold mb-1">Enveloppe horaire de l’unité</label>
                         <div class="flex gap-2">
                             <input type="number" formControlName="dureeUnite"
                                 class="w-2/3 border border-gray-300 p-2 rounded" />
@@ -81,7 +81,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold mb-1">Enveloppe horaire du chapitre</label>
+                        <label class="required-field block text-sm font-semibold mb-1">Enveloppe horaire du chapitre</label>
                         <div class="flex gap-2">
                             <input type="number" formControlName="dureeChapitre"
                                 class="w-2/3 border border-gray-300 p-2 rounded" />
@@ -95,7 +95,7 @@
 
                 <!-- Références adoptées -->
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Références adoptées pour la planification de la
+                    <label class="required-field block text-sm font-semibold mb-1">Références adoptées pour la planification de la
                         leçon</label>
 
                     <div formArrayName="references" class="space-y-2">
@@ -120,11 +120,11 @@
         <h3 class="text-lg font-bold text-center mb-6">les compétences visées</h3>
 
         <div formGroupName="transversales" class="space-y-6 border border-gray-200 p-4 rounded">
-            <h4 class="text-lg font-semibold mb-2">les compétences transversales</h4>
+            <h4 class="required-field text-lg font-semibold mb-2">les compétences transversales</h4>
 
             <!-- Communicationnelles -->
             <div formArrayName="communicationnelles" class="border border-gray-200 p-4 rounded">
-                <h4 class="text-md font-semibold mb-2">Les compétences communicationnelles</h4>
+                <h4 class="required-field text-md font-semibold mb-2">Les compétences communicationnelles</h4>
                 <div *ngFor="let ctrl of getArray('communicationnelles').controls; let i = index"
                     class="flex gap-2 mb-2">
                     <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
@@ -138,7 +138,7 @@
 
             <!-- Méthodologiques -->
             <div formArrayName="methodologiques" class="border border-gray-200 p-4 rounded">
-                <h4 class="text-md font-semibold mb-2">Les compétences méthodologiques</h4>
+                <h4 class="required-field text-md font-semibold mb-2">Les compétences méthodologiques</h4>
                 <div *ngFor="let ctrl of getArray('methodologiques').controls; let i = index" class="flex gap-2 mb-2">
                     <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
                     <button type="button" (click)="removeTransversale('methodologiques', i)"
@@ -151,7 +151,7 @@
 
             <!-- Stratégiques -->
             <div formArrayName="strategiques" class="border border-gray-200 p-4 rounded">
-                <h4 class="text-md font-semibold mb-2">Les compétences stratégiques</h4>
+                <h4 class="required-field text-md font-semibold mb-2">Les compétences stratégiques</h4>
                 <div *ngFor="let ctrl of getArray('strategiques').controls; let i = index" class="flex gap-2 mb-2">
                     <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
                     <button type="button" (click)="removeTransversale('strategiques', i)"
@@ -164,7 +164,7 @@
 
             <!-- Culturelles -->
             <div formArrayName="culturelles" class="border border-gray-200 p-4 rounded">
-                <h4 class="text-md font-semibold mb-2">Les compétences culturelles</h4>
+                <h4 class="required-field text-md font-semibold mb-2">Les compétences culturelles</h4>
                 <div *ngFor="let ctrl of getArray('culturelles').controls; let i = index" class="flex gap-2 mb-2">
                     <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
                     <button type="button" (click)="removeTransversale('culturelles', i)"
@@ -177,7 +177,7 @@
 
             <!-- Technologiques -->
             <div formArrayName="technologiques" class="border border-gray-200 p-4 rounded">
-                <h4 class="text-md font-semibold mb-2">Les compétences technologiques</h4>
+                <h4 class="required-field text-md font-semibold mb-2">Les compétences technologiques</h4>
                 <div *ngFor="let ctrl of getArray('technologiques').controls; let i = index" class="flex gap-2 mb-2">
                     <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
                     <button type="button" (click)="removeTransversale('technologiques', i)"
@@ -191,7 +191,7 @@
 
         <!-- Spécifiques -->
         <div class="mt-8 border border-gray-200 p-4 rounded">
-            <h4 class="text-lg font-semibold mb-2">Les compétences spécifiques</h4>
+            <h4 class="required-field text-lg font-semibold mb-2">Les compétences spécifiques</h4>
             <div formArrayName="specifiques">
                 <div *ngFor="let ctrl of specifiques.controls; let i = index" class="flex gap-2 mb-2">
                     <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
@@ -274,7 +274,7 @@
                 <!-- Loop through each Titre section -->
                 <div *ngFor="let section of titre2.controls; let i = index" [formGroupName]="i"
                     class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
-                    <h4 class="text-xl font-semibold">{{'Titre '+ getRomanNumeral(i) }}</h4>
+                    <h4 class="required-field text-xl font-semibold">{{'Titre '+ getRomanNumeral(i) }}</h4>
                     <!-- Ligne principale ( Titre) -->
                     <div formGroupName="lignes" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <input type="text" formControlName="titre" placeholder="Titre "
@@ -365,7 +365,7 @@
         <div [formGroup]="stepSevenForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
             <h3 class="text-lg font-bold text-center mb-6">problème & Soutien</h3>
             <div>
-                <label class="block text-sm font-semibold mb-2">Situation-problème</label>
+                <label class="required-field block text-sm font-semibold mb-2">Situation-problème</label>
                 <textarea formControlName="situationProbleme" rows="4" class="w-full border border-gray-300 p-2 rounded"
                     placeholder="Décrivez ici une situation réelle ou fictive..."></textarea>
             </div>
@@ -380,7 +380,7 @@
 
         <!-- Objectifs -->
         <div formArrayName="objectifs" class="space-y-2">
-            <h4 class="font-semibold">Objectifs d’apprentissage</h4>
+            <h4 class="required-field font-semibold">Objectifs d’apprentissage</h4>
             <div *ngFor="let obj of objectifs.controls; let i = index" class="flex gap-2">
                 <input [formControlName]="i" class="w-full border p-2 rounded" placeholder="Objectif..." />
                 <button type="button" (click)="removeObjectif(i)" class="text-red-600">×</button>
@@ -391,7 +391,7 @@
 
         <!-- Supports pédagogiques -->
         <div formArrayName="supports" class="space-y-2">
-            <h4 class="font-semibold">Activité de la situation :</h4>
+            <h4 class="required-field font-semibold">Activité de la situation :</h4>
             <div *ngFor="let support of supports.controls; let i = index" class="flex gap-2">
                 <input [formControlName]="i" class="w-full border p-2 rounded"
                     placeholder="(exemple : observation d’une vidéo)" />
@@ -413,11 +413,11 @@
             <div *ngFor="let block of activiteBlocks.controls; let i = index" [formGroupName]="i"
                 class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6 my-5">
 
-                <h4 class="font-bold text-lg mb-4">Planification des séquences didactiques {{ getRomanNumeral(i) }}</h4>
+                <h4 class="required-field font-bold text-lg mb-4">Planification des séquences didactiques {{ getRomanNumeral(i) }}</h4>
 
                 <!-- Activité Description -->
                 <div formArrayName="activiteDescription" class="space-y-2">
-                    <label class="font-semibold">Planification de séquence didactique {{ getRomanNumeral(i) }}:</label>
+                    <label class="required-field font-semibold">Planification de séquence didactique {{ getRomanNumeral(i) }}:</label>
                     <div *ngFor="let desc of getFormArray(i, 'activiteDescription').controls; let j = index"
                         class="flex gap-2">
                         <input [formControlName]="j" class="border p-2 rounded w-full"
@@ -431,7 +431,7 @@
 
                 <!-- Planification de l’activité -->
                 <div formArrayName="Planificationdeactivite" class="space-y-2">
-                    <label class="font-semibold">Planification de l’activité {{ getRomanNumeral(i) }}</label>
+                    <label class="required-field font-semibold">Planification de l’activité {{ getRomanNumeral(i) }}</label>
                     <div *ngFor="let plan of getFormArray(i, 'Planificationdeactivite').controls; let j = index"
                         class="flex gap-2">
                         <input [formControlName]="j" class="border p-2 rounded w-full"
@@ -446,7 +446,7 @@
                 <!-- Objectifs d’apprentissage -->
                 <div formArrayName="Objectifsapprentissage" class="space-y-2">
                     <h5 class="font-semibold">Les principaux objectifs d’apprentissages de l’activité </h5>
-                    <label class="font-normal">L’apprenant sera capable de :</label>
+                    <label class="required-field font-normal">L’apprenant sera capable de :</label>
                     <div *ngFor="let obj of getFormArray(i, 'Objectifsapprentissage').controls; let j = index"
                         class="flex gap-2">
                         <input [formControlName]="j" class="border p-2 rounded w-full " />
@@ -484,13 +484,13 @@
             <div *ngFor="let block of activiteBlocksImg.controls; let i = index" [formGroupName]="i"
                 class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm mb-5 space-y-6">
 
-                <h4 class="font-bold text-lg">Activité {{ getRomanNumeral(i) }}</h4>
+                <h4 class="required-field font-bold text-lg">Activité {{ getRomanNumeral(i) }}</h4>
 
                 <textarea formControlName="description" placeholder="Description de l'activité"
                     class="w-full border p-2 rounded"></textarea>
 
                 <div>
-                    <label class="block font-semibold mb-2">Image (optionnelle)</label>
+                    <label class="required-field block font-semibold mb-2">Image (optionnelle)</label>
 
                     <div class="flex items-center justify-center w-full">
                         <label for="dropzone-file-{{ i }}"
@@ -524,11 +524,11 @@
                     </div>
                 </div>
 
-                <h4 class="font-semibold">Productions attendues des apprenants : </h4>
+                <h4 class="required-field font-semibold">Productions attendues des apprenants : </h4>
 
                 <div formArrayName="questions" *ngFor="let q of getQuestions(i).controls; let j = index"
                     class="space-y-2">
-                    <label class="font-semibold block">Question {{j+1}}</label>
+                    <label class="required-field font-semibold block">Question {{j+1}}</label>
                     <div class="flex gap-2">
                         <input [formControlName]="j" class="w-full border p-2 rounded" placeholder="Question..." />
                         <button type="button" (click)="removeQuestion(i, j)" class="text-red-600 font-bold">×</button>
@@ -537,10 +537,10 @@
                         question</button>
                 </div>
 
-                <label class="font-semibold block">Bilan</label>
+                <label class="required-field font-semibold block">Bilan</label>
                 <textarea formControlName="bilan" placeholder="Bilan de l'activité"
                     class="w-full border p-2 rounded"></textarea>
-                <label class="font-semibold block">Conclusion</label>
+                <label class="required-field font-semibold block">Conclusion</label>
                 <textarea formControlName="conclusion" placeholder="Conclusion de l'activité"
                     class="w-full border p-2 rounded"></textarea>
 
@@ -565,11 +565,10 @@
         </div>
     </div>
     <!-- Step 11-->
-
     <div *ngIf="currentStep === 10">
         <div [formGroup]="stepElevenForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
             <div>
-                <label class="block text-sm font-semibold mb-2">Bilan Général</label>
+                <label class="required-field block text-sm font-semibold mb-2">Bilan Général</label>
                 <textarea formControlName="BilanGénéral" rows="4" class="w-full border border-gray-300 p-2 rounded"
                     placeholder="Bilan Général..."></textarea>
             </div>
@@ -580,10 +579,10 @@
     <div *ngIf="currentStep === 11" [formGroup]="stepTwelveForm"
         class="space-y-6 border p-6 rounded-lg bg-white shadow-sm">
 
-        <h4 class="font-semibold text-xl">Évaluation</h4>
+        <h4 class="required-field font-semibold text-xl">Évaluation</h4>
 
         <div>
-            <label class="block font-medium mb-1">Charger une image</label>
+            <label class="required-field block font-medium mb-1">Charger une image</label>
 
             <div class="flex flex-col  gap-4">
                 <div class="">
@@ -631,7 +630,7 @@
     <div *ngIf="currentStep === 12" [formGroup]="stepThirteenForm"
         class="space-y-6 border p-6 rounded-lg bg-white shadow-sm">
 
-        <h4 class="font-semibold text-xl">Soutien</h4>
+        <h4 class="required-field font-semibold text-xl">Soutien</h4>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <textarea formControlName="description" placeholder="Description du soutien" rows="3"
@@ -942,13 +941,25 @@
                 </tr>
 
                 <!--  12:  -->
-                <tr style="border-bottom: 3px solid black;">
-                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
-                        <p class="s1">
-                            <strong>Évaluation:</strong> {{ evaluationFileName }}
-                        </p>
-                    </td>
-                </tr>
+               <tr style="border-bottom: 3px solid black;">
+  <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+    <p class="s1">
+      <strong>Évaluation:</strong>
+    </p>
+
+    <div *ngIf="evaluationImagePreview">
+      <img [src]="evaluationImagePreview"
+           alt="Évaluation Image"
+           style="max-width: 100%; height: auto; margin: 10px 0;" />
+      <p class="s1">{{ evaluationImageName }}</p>
+    </div>
+
+    <p *ngIf="!evaluationImagePreview" class="s1 italic text-gray-500">
+      Aucune image sélectionnée
+    </p>
+  </td>
+</tr>
+
 
                 <!--  13:  -->
                 <tr *ngIf="stepThirteenForm.value.description" style="border-bottom: 3px solid black;">
