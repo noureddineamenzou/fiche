@@ -17,7 +17,7 @@
   </mat-form-field>
 
   <mat-slide-toggle formControlName="status" color="primary">
-    Status Fiche: {{ form.value.status === 'completed' ? 'completed' : 'draft' }}
+Status Fiche: {{ form.value.status ? 'completed' : 'draft' }}
   </mat-slide-toggle>
 
   <div class="flex justify-end gap-2 mt-4">
