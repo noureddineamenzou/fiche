@@ -97,7 +97,7 @@ export class CrudComponent implements OnInit {
         setDoc(ficheRef, newFiche).then(() => {
           this.router.navigate([`/form/${ficheRef.id}`]);
         }).catch(err => {
-          console.error("فشل في إنشاء Fiche:", err);
+          console.error("error Fiche:", err);
         });
       }
     });

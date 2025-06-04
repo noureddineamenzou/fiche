@@ -245,7 +245,7 @@ export class FormComponent implements OnInit {
 
   if (currentForm.invalid) {
       console.log(currentForm.errors, currentForm);
-  alert('من فضلك املأ كل الحقول المطلوبة في هذه الخطوة.');
+  alert('Veuillez remplir tous les champs requis à cette étape');
 
     currentForm.markAllAsTouched(); // علشان يظهر الأخطاء للمستخدم
     return; // متتنقلش للخطوة التالية
