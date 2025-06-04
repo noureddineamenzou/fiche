@@ -33,7 +33,10 @@ import { Router } from '@angular/router';
     MatDialogModule,
     MatCheckboxModule,FormsModule],
   templateUrl: './crud.component.html',
-  styles: ''
+  styles: `.custom-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}`
+
 ,
 
   encapsulation: ViewEncapsulation.None,
@@ -68,6 +71,8 @@ export class CrudComponent implements OnInit {
 addNew() {
   const dialogRef = this.dialog.open(DialogComponentComponent, {
     width: '600px',
+  backdropClass: 'custom-backdrop',
+  
   });
 
   dialogRef.afterClosed().subscribe(result => {
