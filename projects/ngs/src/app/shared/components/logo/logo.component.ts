@@ -12,6 +12,6 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoComponent {
-    favicon = 'favicon.ico';
-    alt = 'Angular-Starter-Logo';
+    favicon = 'favicon.svg';
+    alt = 'Ma fiche Logo';
 }
