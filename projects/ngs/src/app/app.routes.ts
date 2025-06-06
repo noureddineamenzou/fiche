@@ -9,7 +9,7 @@ import { FormComponent } from './crud/components/form/form.component';
 
 
 
-export const NGS_TITLE_SUFFIX = ' | NGS';
+export const NGS_TITLE_SUFFIX = ' | MAFICHE';
 
 const redirectUnauthorizedToLogin = () =>
     redirectUnauthorizedTo(['auth/login']);
