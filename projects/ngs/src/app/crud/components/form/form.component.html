@@ -646,9 +646,9 @@
 
     </div>
     <!-- Step 14: Preview -->
-    <div *ngIf="currentStep === 13" class="space-y-8 p-6 bg-white rounded-lg shadow-sm print:p-0 print:bg-white">
+    <div *ngIf="currentStep === 13"  class="space-y-8 p-6 bg-white rounded-lg shadow-sm print:p-0 print:bg-white">
         <h2 class="text-2xl font-bold text-center mb-6">Aperçu avant impression</h2>
-        <div #printSection class="print-pedagogique">
+        <div #printSection id="fiche-content" class="print-pedagogique">
             <table class="fiche-table">
                 <!--  1: -->
                 <tr class="row-height-43" style="border-bottom: 3px solid black;">
@@ -982,7 +982,7 @@
   </button>
 
   <div class="flex gap-4">
-    <button (click)="print()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+    <button (click)="downloadPDF()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
       Download
     </button>
   </div>
