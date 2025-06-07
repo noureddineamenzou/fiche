@@ -2,11 +2,15 @@
     <!-- <h1 class="text-center font-bold">Welcome to {{ title() }}!</h1> -->
     <div class="flex items-center justify-between px-8 pt-4 md:px-20">
         <!-- <div class="font-bold">{{ title() }}</div> -->
-        <img src="logo.svg" alt="logo" srcset="">
+        <a 
+        [routerLink]="['/']"
+        >
+            <img src="logo.svg" alt="logo" srcset="">
+        </a>
 
         @if (user$ | async) {
             <button mat-stroked-button (click)="logout()">Se déconnecter
-                
+
             </button>
         } @else {
             <button
