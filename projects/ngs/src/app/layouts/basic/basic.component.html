@@ -5,7 +5,9 @@
         <img src="logo.svg" alt="logo" srcset="">
 
         @if (user$ | async) {
-            <button mat-stroked-button (click)="logout()">Logout</button>
+            <button mat-stroked-button (click)="logout()">Se déconnecter
+                
+            </button>
         } @else {
             <button
                 mat-stroked-button
