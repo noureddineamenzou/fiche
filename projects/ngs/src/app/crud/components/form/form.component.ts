@@ -634,6 +634,5 @@ removeEvaluationImage() {
   print() {
     window.print();
     this.markFicheAsCompleted(); // تحديث الحالة بعد الطباعة
-
   }
 }

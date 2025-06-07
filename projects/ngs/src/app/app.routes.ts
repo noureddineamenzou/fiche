@@ -9,11 +9,11 @@ import { FormComponent } from './crud/components/form/form.component';
 
 
 
-export const NGS_TITLE_SUFFIX = ' | NGS';
+export const NGS_TITLE_SUFFIX = ' | MAFICHE';
 
 const redirectUnauthorizedToLogin = () =>
     redirectUnauthorizedTo(['auth/login']);
-const redirectLoggedInToDomain = () => redirectLoggedInTo(['/domain']);
+const redirectLoggedInToDomain = () => redirectLoggedInTo(['/fiche']);
 
 export const routes: Routes = [
     {
@@ -31,24 +31,17 @@ export const routes: Routes = [
                 ...canActivate(redirectLoggedInToDomain),
             },
             {
-                path: 'domain',
-                loadComponent: () =>
-                    import('./modules/domain/domain.component'),
-                ...canActivate(redirectUnauthorizedToLogin),
-            },
-            {
                 path: 'fiche',
                 loadComponent: () =>
                     import('./crud/components/crud/crud.component').then(m => m.CrudComponent),
                   ...canActivate(redirectUnauthorizedToLogin),
 
-            },{ path: 'dashboard', component: CrudComponent },
-  { path: 'form/:id', component: FormComponent },
-            {
-                path: '**',
-                loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent),
             },
-        ],
-    },{ path: 'dashboard', component: CrudComponent },
   { path: 'form/:id', component: FormComponent },
+],
+},
+{
+    path: '**',
+    loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent),
+},
 ];
