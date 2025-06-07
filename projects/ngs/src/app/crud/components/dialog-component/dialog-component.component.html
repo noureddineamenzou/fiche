@@ -1,14 +1,14 @@
-<h2 mat-dialog-title class="p-4 bg-white">{{ data ? 'edit Fiche' : 'new Fiche ' }}</h2>
+<h2 mat-dialog-title class="p-4 bg-white">{{ data ? 'edit Fiche' : 'Nouvelle Fiche' }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="save()" class="space-y-4 p-4 bg-white">
 
   <mat-form-field appearance="fill" class="w-full">
-    <mat-label>name</mat-label>
-    <input matInput formControlName="name" placeholder="name Fiche">
+    <mat-label>Nommer Votre Fiche</mat-label>
+    <input matInput formControlName="name" placeholder="Ma Fiche Pédagogique 1AC">
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="w-full">
-    <mat-label>level</mat-label>
+    <mat-label>Niveau Scolaire</mat-label>
     <mat-select formControlName="level">
       <mat-option value="1AC">1AC</mat-option>
       <mat-option value="2AC">2AC</mat-option>
@@ -17,12 +17,12 @@
   </mat-form-field>
 
   <mat-slide-toggle formControlName="status" color="primary">
-Status Fiche: {{ form.value.status ? 'completed' : 'draft' }}
+Statut de la Fiche: {{ form.value.status ? 'Terminé' : 'Brouillon' }}
   </mat-slide-toggle>
 
   <div class="flex justify-end gap-2 mt-4">
-    <button mat-button type="button" (click)="cancel()">cancele</button>
-    <button mat-raised-button color="primary" type="submit">save</button>
+    <button mat-button type="button" (click)="cancel()">Annuler</button>
+    <button mat-raised-button color="primary" type="submit">Enregistrer</button>
   </div>
 
 </form>

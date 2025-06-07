@@ -632,22 +632,9 @@ removeEvaluationImage() {
 
   }
 
-  downloadPDF() {
-  const element = document.getElementById('fiche-content'); // عنصر الـ DOM اللي فيه محتوى الـ fiche
+  print() {
+    window.print();
+    this.markFicheAsCompleted(); // تحديث الحالة بعد الطباعة
 
-  if (!element) return;
-
-  const opt = {
-    margin:       0.5,
-    filename:     'fiche.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-  };
-
-  html2pdf().from(element).set(opt).save().then(() => {
-    this.markFicheAsCompleted(); // تحديث الحالة بعد التحميل
-  });
-}
-
+  }
 }

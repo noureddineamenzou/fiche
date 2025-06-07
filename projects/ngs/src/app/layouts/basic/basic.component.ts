@@ -26,7 +26,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class BasicLayoutComponent {
     // template
-    title = signal('Angular Starter');
+    title = signal('MAFICHE');
 
     // DI
     #authService = inject(AuthService);
