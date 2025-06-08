@@ -908,24 +908,52 @@
 
                 <!--  9:   -->
                 <tr style="border-bottom: 3px solid black;">
-                    <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
-                        <p class="s1" style="text-align: center;">Planification des séquences didactiques</p>
-                        <div *ngIf="stepNineForm.value.activiteBlocks?.length">
-                            <div *ngFor="let bloc of stepNineForm.value.activiteBlocks; let i = index">
-                                <p class="s1"><strong>Bloc {{ getRomanNumeral(i) }}</strong></p>
-                                <ul *ngIf="bloc.activiteDescription?.length">
-                                    <li *ngFor="let item of bloc.activiteDescription">{{ item }}</li>
-                                </ul>
-                                <ul *ngIf="bloc.Planificationdeactivite?.length">
-                                    <li *ngFor="let item of bloc.Planificationdeactivite">{{ item }}</li>
-                                </ul>
-                                <ul *ngIf="bloc.Objectifsapprentissage?.length">
-                                    <li *ngFor="let item of bloc.Objectifsapprentissage">{{ item }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+  <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
+    <p class="s1" style="text-align: center;">Planification des séquences didactiques</p>
+    
+    <div *ngIf="stepNineForm.value.activiteBlocks?.length">
+      <div *ngFor="let bloc of stepNineForm.value.activiteBlocks; let i = index">
+        <p class="s1"><strong>Bloc {{ getRomanNumeral(i) }}</strong></p>
+        
+        <!-- Activité Description -->
+        <p><strong>Activité Description:</strong></p>
+        <ul *ngIf="bloc.activiteDescription?.length">
+          <li *ngFor="let item of bloc.activiteDescription">{{ item }}</li>
+        </ul>
+
+        <!-- Planification de l'activité -->
+        <p><strong>Planification de l'activité:</strong></p>
+        <ul *ngIf="bloc.Planificationdeactivite?.length">
+          <li *ngFor="let item of bloc.Planificationdeactivite">{{ item }}</li>
+        </ul>
+
+        <!-- Objectifs d'apprentissage -->
+        <p><strong>Objectifs d’apprentissage:</strong></p>
+        <ul *ngIf="bloc.Objectifsapprentissage?.length">
+          <li *ngFor="let item of bloc.Objectifsapprentissage">{{ item }}</li>
+        </ul>
+
+        <!-- Nature de l’activité -->
+        <p><strong>Nature de l’activité:</strong> {{ bloc.natureActivite }}</p>
+
+        <!-- Supports pédagogiques -->
+        <p><strong>Supports pédagogiques:</strong></p>
+        <ul *ngIf="bloc.supportsPedagogiques?.length">
+          <li *ngFor="let item of bloc.supportsPedagogiques">{{ item }}</li>
+        </ul>
+
+        <!-- Méthode pédagogique -->
+        <p><strong>Méthode pédagogique adoptée:</strong> {{ bloc.methodePedagogique }}</p>
+
+        <!-- Démarche adoptée -->
+        <p><strong>Démarche adoptée:</strong> {{ bloc.demarcheAdoptee }}</p>
+
+        <hr style="border-top: 1px dashed gray;">
+      </div>
+    </div>
+  </td>
+</tr>
+
 
                 <!--  10:   -->
                 <tr style="border-bottom: 3px solid black;">
@@ -1000,9 +1028,6 @@
                 </tr>
             </table>
         </div>
-
-
-
         <div class="flex justify-between mt-8 print:hidden">
   <button (click)="previousStep()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
     Retour
