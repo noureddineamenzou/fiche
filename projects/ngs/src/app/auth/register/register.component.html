@@ -8,7 +8,7 @@
         <ngs-logo />
 
         <!-- title -->
-        <div class="mb-8 mt-4 text-xl font-bold">Register</div>
+        <div class="mb-8 mt-4 text-xl font-bold">S'inscrire</div>
 
         <!-- form -->
         <form
@@ -17,7 +17,7 @@
         >
             <!-- email -->
             <mat-form-field [appearance]="'outline'">
-                <mat-label>Email</mat-label>
+                <mat-label>E-mail</mat-label>
                 <mat-icon matPrefix [fontIcon]="'person'" />
                 <input
                     type="email"
@@ -37,7 +37,7 @@
 
             <!-- username -->
             <mat-form-field [appearance]="'outline'">
-                <mat-label>Username</mat-label>
+                <mat-label>Nom d'utilisateur</mat-label>
                 <mat-icon matPrefix [fontIcon]="'badge'" />
                 <input
                     type="text"
@@ -58,7 +58,7 @@
 
             <!-- password -->
             <mat-form-field [appearance]="'outline'">
-                <mat-label>Password</mat-label>
+                <mat-label>Mot de passe</mat-label>
                 <mat-icon matPrefix [fontIcon]="'lock'" />
                 <input
                     type="password"
@@ -98,7 +98,7 @@
             <!-- redirects  -->
             <div class="flex flex-row justify-end">
                 <button mat-button [routerLink]="['../..', 'auth', 'login']">
-                    Login
+                    Connexion
                 </button>
             </div>
         </form>
@@ -113,7 +113,7 @@
             @if (isSpin()) {
                 <mat-progress-spinner [mode]="'indeterminate'" diameter="30" />
             } @else {
-                Register
+                S'inscrire
             }
         </button>
     </mat-card>
