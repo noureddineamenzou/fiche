@@ -18,13 +18,18 @@ const redirectLoggedInToDomain = () => redirectLoggedInTo(['/fiche']);
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'auth/login',
+        redirectTo: 'landing',
         pathMatch: 'full',
     },
     {
         path: '',
         loadComponent: () => import('./layouts/basic/basic.component').then(m => m.BasicLayoutComponent),
         children: [
+            {
+                path: 'landing',
+                loadComponent: () => import('./landing/landing.component'),
+                ...canActivate(redirectLoggedInToDomain),
+            },
             {
                 path: 'auth',
                 loadChildren: () => import('./auth/auth.routes'),
