@@ -29,7 +29,7 @@
 
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef class="bg-green-100">
+        <th mat-header-cell *matHeaderCellDef >
           <mat-checkbox (change)="toggleSelectAll($event)"></mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let element">
@@ -39,19 +39,19 @@
 
       <!-- ID -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> ID </th>
+        <th mat-header-cell *matHeaderCellDef class="text-gray-600"> ID </th>
         <td mat-cell *matCellDef="let element"> {{element.id}} </td>
       </ng-container>
 
       <!-- Name -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Nom </th>
+        <th mat-header-cell *matHeaderCellDef class="text-gray-600"> Nom </th>
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
       <!-- Level -->
       <ng-container matColumnDef="level">
-        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Niveau scolaire </th>
+        <th mat-header-cell *matHeaderCellDef class="text-gray-600"> Niveau scolaire </th>
         <td mat-cell *matCellDef="let element">
           <span class="px-2 py-1 rounded-full text-black">{{element.level}}</span>
         </td>
@@ -59,7 +59,7 @@
 
       <!-- Status -->
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Statut </th>
+        <th mat-header-cell *matHeaderCellDef class="text-gray-600"> Statut </th>
         <td mat-cell *matCellDef="let element">
           <span [ngClass]="element.status=='draft' ? 'text-yellow-600' : 'text-green-600'">
             {{element.status ==='draft'? 'Brouillon' : 'Terminé'}}
@@ -69,7 +69,7 @@
 
       <!-- Actions -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="bg-green-100 text-gray-600"> Actions </th>
+        <th mat-header-cell *matHeaderCellDef class="text-gray-600"> Actions </th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon class="text-black">more_vert</mat-icon>
