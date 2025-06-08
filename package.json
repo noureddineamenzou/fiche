@@ -14,7 +14,7 @@
   "private": false,
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o --project=ngs --ssl --port=4200",
+    "start": "ng s",
     "build": "ng build --project=ngs"
   },
   "dependencies": {
