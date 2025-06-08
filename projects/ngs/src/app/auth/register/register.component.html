@@ -17,7 +17,7 @@
         >
             <!-- email -->
             <mat-form-field [appearance]="'outline'">
-                <mat-label>E-mail</mat-label>
+                <mat-label>Email</mat-label>
                 <mat-icon matPrefix [fontIcon]="'person'" />
                 <input
                     type="email"
@@ -26,12 +26,7 @@
                     placeholder="example@mail.io"
                 />
                 <mat-error>
-                    {{
-                        getError(
-                            registerForm.get(registerProps.EMAIL),
-                            registerProps.EMAIL
-                        )
-                    }}
+                    L'email est requis
                 </mat-error>
             </mat-form-field>
 
@@ -47,12 +42,7 @@
                     [autocomplete]="true"
                 />
                 <mat-error>
-                    {{
-                        getError(
-                            registerForm.get(registerProps.USERNAME),
-                            registerProps.USERNAME
-                        )
-                    }}
+                    Le nom d'utilisateur est requis
                 </mat-error>
             </mat-form-field>
 
@@ -86,12 +76,7 @@
                     }
                 </button>
                 <mat-error>
-                    {{
-                        getError(
-                            registerForm.get(registerProps.PASSWORD),
-                            registerProps.PASSWORD
-                        )
-                    }}
+                    Le mot de passe est requis
                 </mat-error>
             </mat-form-field>
 

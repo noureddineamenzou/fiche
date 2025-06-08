@@ -21,7 +21,7 @@
         >
             <!-- email -->
             <mat-form-field [appearance]="'outline'">
-                <mat-label>E-mail</mat-label>
+                <mat-label>Email</mat-label>
                 <mat-icon matPrefix [fontIcon]="'person'" />
                 <input
                     type="email"
@@ -30,12 +30,7 @@
                     placeholder="example@mail.io"
                 />
                 <mat-error>
-                    {{
-                        getError(
-                            loginForm.get(loginProps.EMAIL),
-                            loginProps.EMAIL
-                        )
-                    }}
+                    L'email est requis
                 </mat-error>
             </mat-form-field>
 
@@ -69,12 +64,7 @@
                     }
                 </button>
                 <mat-error>
-                    {{
-                        getError(
-                            loginForm.get(loginProps.PASSWORD),
-                            loginProps.PASSWORD
-                        )
-                    }}
+                    Le mot de passe est requis
                 </mat-error>
             </mat-form-field>
 
