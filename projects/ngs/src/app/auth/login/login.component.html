@@ -8,7 +8,7 @@
         <ngs-logo />
 
         <!-- title -->
-        <div class="mt-4 text-xl font-bold">Login</div>
+        <div class="mt-4 text-xl font-bold">Connexion</div>
 
         <!-- OAuth 2 -->
        
@@ -21,7 +21,7 @@
         >
             <!-- email -->
             <mat-form-field [appearance]="'outline'">
-                <mat-label>Email</mat-label>
+                <mat-label>E-mail</mat-label>
                 <mat-icon matPrefix [fontIcon]="'person'" />
                 <input
                     type="email"
@@ -41,7 +41,7 @@
 
             <!-- password -->
             <mat-form-field [appearance]="'outline'">
-                <mat-label>Password</mat-label>
+                <mat-label>Mot de passe</mat-label>
                 <mat-icon matPrefix [fontIcon]="'lock'" />
                 <input
                     type="password"
@@ -81,13 +81,13 @@
             <!-- redirects  -->
             <div class="flex flex-row justify-between">
                 <button mat-button [routerLink]="['../..', 'auth', 'register']">
-                    Register
+                    S'inscrire
                 </button>
                 <button
                     mat-button
                     [routerLink]="['../..', 'auth', 'forgot-password']"
                 >
-                    Forgot Password ?
+                    Mot de passe oublié ?
                 </button>
             </div>
         </form>
@@ -102,7 +102,7 @@
             @if (isSpin()) {
                 <mat-progress-spinner [mode]="'indeterminate'" diameter="30" />
             } @else {
-                Login
+                Connexion
             }
         </button>
     </mat-card>
