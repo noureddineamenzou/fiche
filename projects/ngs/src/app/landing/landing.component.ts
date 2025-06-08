@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ngs-landing',
-    imports: [RouterLink ,MatButtonModule],
+    imports: [RouterLink ,MatButtonModule,],
   templateUrl: './landing.component.html',
   styles: ``,
   encapsulation: ViewEncapsulation.None,
