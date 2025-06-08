@@ -913,7 +913,7 @@
     
     <div *ngIf="stepNineForm.value.activiteBlocks?.length">
       <div *ngFor="let bloc of stepNineForm.value.activiteBlocks; let i = index">
-        <p class="s1"><strong>Bloc {{ getRomanNumeral(i) }}</strong></p>
+        <p class="s1"><strong>Planification des séquences didactiques {{ getRomanNumeral(i) }}</strong></p>
         
         <!-- Activité Description -->
         <p><strong>Activité Description:</strong></p>
@@ -1006,7 +1006,7 @@
       <img [src]="evaluationImagePreview"
            alt="Évaluation Image"
            style="max-width: 100%; height: auto; margin: 10px 0;" />
-      <p class="s1">{{ evaluationImageName }}</p>
+      <!-- <p class="s1">{{ evaluationImageName }}</p> -->
     </div>
 
     <p *ngIf="!evaluationImagePreview" class="s1 italic text-gray-500">
