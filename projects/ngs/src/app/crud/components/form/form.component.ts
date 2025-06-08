@@ -432,49 +432,71 @@ getCurrentForm(): FormGroup {
   }
 
   //step9
-  createActiviteBlock(required = false): FormGroup {
-    const validator = required ? Validators.required : null;
-    return this.fb.group({
-      activiteDescription: this.fb.array([this.fb.control('', validator)]),
-      Planificationdeactivite: this.fb.array([this.fb.control('', validator)]),
-      Objectifsapprentissage: this.fb.array([this.fb.control('', validator)])
-    });
-  }
+createActiviteBlock(required = false): FormGroup {
+  return this.fb.group({
+    activiteDescription: this.fb.array([this.fb.control('')]),
+    Planificationdeactivite: this.fb.array([this.fb.control('')]),
+    Objectifsapprentissage: this.fb.array([this.fb.control('')]),
+    natureActivite: this.fb.control(''), // input
+    supportsPedagogiques: this.fb.array([this.fb.control('')]), // list
+    methodePedagogique: this.fb.control(''), // input
+    demarcheAdoptee: this.fb.control('') // input
+  });
+}
 
+get activiteBlocks(): FormArray {
+  return this.stepNineForm.get('activiteBlocks') as FormArray;
+}
 
-  get activiteBlocks(): FormArray {
-    return this.stepNineForm.get('activiteBlocks') as FormArray;
-  }
+addActiviteBlock(): void {
+  this.activiteBlocks.push(this.createActiviteBlock());
+}
 
-  addActiviteBlock() {
-    this.activiteBlocks.push(this.createActiviteBlock());
+removeActiviteBlock(index: number): void {
+  if (this.activiteBlocks.length > 1) {
+    this.activiteBlocks.removeAt(index);
   }
- 
-  removeActiviteBlock(i: number) {
-    if (this.activiteBlocks.length > 1) {
-      this.activiteBlocks.removeAt(i);
-    }
-  }
-    duplicateActiviteBlock(i: number) {
-    const original = this.activiteBlocks.at(i).value;
-    this.activiteBlocks.push(this.fb.group({
-      activiteDescription: this.fb.array(original.activiteDescription.map((o: string) => this.fb.control(o))),
-      Planificationdeactivite: this.fb.array(original.Planificationdeactivite.map((s: string) => this.fb.control(s))),
-      Objectifsapprentissage: this.fb.array(original.Objectifsapprentissage.map((p: string) => this.fb.control(p)))
-    }));
-  }
+}
 
-  getFormArray(blockIndex: number, fieldName: string): FormArray {
-    return this.activiteBlocks.at(blockIndex).get(fieldName) as FormArray;
-  }
+duplicateActiviteBlock(index: number): void {
+  const originalBlock = this.activiteBlocks.at(index).value;
 
-  addItem(blockIndex: number, fieldName: string) {
-    this.getFormArray(blockIndex, fieldName).push(this.fb.control(''));
-  }
+  const duplicatedBlock = this.fb.group({
+    activiteDescription: this.fb.array(
+      originalBlock.activiteDescription.map((desc: string) => this.fb.control(desc))
+    ),
+    Planificationdeactivite: this.fb.array(
+      originalBlock.Planificationdeactivite.map((item: string) => this.fb.control(item))
+    ),
+    Objectifsapprentissage: this.fb.array(
+      originalBlock.Objectifsapprentissage.map((obj: string) => this.fb.control(obj))
+    ),
+    natureActivite: this.fb.control(originalBlock.natureActivite || ''),
+    supportsPedagogiques: this.fb.array(
+      originalBlock.supportsPedagogiques.map((s: string) => this.fb.control(s))
+    ),
+    methodePedagogique: this.fb.control(originalBlock.methodePedagogique || ''),
+    demarcheAdoptee: this.fb.control(originalBlock.demarcheAdoptee || '')
+  });
 
-  removeItem(blockIndex: number, fieldName: string, itemIndex: number) {
-    this.getFormArray(blockIndex, fieldName).removeAt(itemIndex);
+  this.activiteBlocks.push(duplicatedBlock);
+}
+
+getFormArray(blockIndex: number, fieldName: string): FormArray {
+  return this.activiteBlocks.at(blockIndex).get(fieldName) as FormArray;
+}
+
+addItem(blockIndex: number, fieldName: string): void {
+  this.getFormArray(blockIndex, fieldName).push(this.fb.control(''));
+}
+
+removeItem(blockIndex: number, fieldName: string, itemIndex: number): void {
+  const array = this.getFormArray(blockIndex, fieldName);
+  if (array.length > 1) {
+    array.removeAt(itemIndex);
   }
+}
+
   //step10
   createActiviteBlockimg(required: boolean = false): FormGroup {
     const validator = required ? Validators.required : null;

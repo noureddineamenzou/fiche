@@ -456,6 +456,33 @@
                     <button type="button" (click)="addItem(i, 'Objectifsapprentissage')"
                         class="text-blue-600 text-sm mt-1">+ Ajouter un objectif</button>
                 </div>
+<!-- ✅ Nature de l’activité -->
+<div class="space-y-2">
+  <label class="font-semibold">Nature de l’activité (exemple : Cours, TP...)</label>
+  <input formControlName="natureActivite" class="border p-2 rounded w-full" placeholder="Ex : Cours, TP..." />
+</div>
+
+<!-- ✅ Les supports pédagogiques (liste) -->
+<div formArrayName="supportsPedagogiques" class="space-y-2">
+  <label class="font-semibold">Les supports pédagogiques</label>
+  <div *ngFor="let support of getFormArray(i, 'supportsPedagogiques').controls; let j = index" class="flex gap-2">
+    <input [formControlName]="j" class="border p-2 rounded w-full" placeholder="Ex : diapo, vidéo..." />
+    <button type="button" (click)="removeItem(i, 'supportsPedagogiques', j)" class="text-red-600 font-bold">×</button>
+  </div>
+  <button type="button" (click)="addItem(i, 'supportsPedagogiques')" class="text-blue-600 text-sm mt-1">+ Ajouter un support</button>
+</div>
+
+<!-- ✅ La méthode pédagogique adoptée -->
+<div class="space-y-2">
+  <label class="font-semibold">La méthode pédagogique adoptée</label>
+  <input formControlName="methodePedagogique" class="border p-2 rounded w-full" placeholder="Méthode pédagogique..." />
+</div>
+
+<!-- ✅ La démarche adoptée -->
+<div class="space-y-2">
+  <label class="font-semibold">La démarche adoptée</label>
+  <input formControlName="demarcheAdoptee" class="border p-2 rounded w-full" placeholder="Démarche pédagogique..." />
+</div>
 
                 <div class="flex gap-4 pt-4">
                     <button type="button" (click)="duplicateActiviteBlock(i)" class="text-blue-600 text-sm underline">
