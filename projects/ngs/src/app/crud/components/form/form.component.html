@@ -4,13 +4,13 @@
     <div *ngIf="currentStep === 0">
         <!-- Step 1: Informations de base -->
         <div class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm">
-            <h3 class="text-lg font-bold text-center mb-6">Informations Générales</h3>
+            <h3 class="text-lg font-bold text-center mb-6">Informations générales</h3>
 
             <form [formGroup]="stepOneForm" class="md:grid  flex gap-4 flex-col md:grid-cols-2 md:gap-x-6 md:gap-y-4">
 
                 <!-- Ligne 1 -->
                 <div>
-                    <label class="required-field block text-sm font-semibold mb-1">Niveau Scolaire</label>
+                    <label class="required-field block text-sm font-semibold mb-1">Niveau scolaire</label>
                     <input type="text" formControlName="niveauScolaire"
                         class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-1 focus:ring-blue-500" />
                 </div>
@@ -117,10 +117,10 @@
     <!-- Step 3: Les compétences visées -->
     <div *ngIf="currentStep === 2" [formGroup]="stepThreeForm"
         class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm">
-        <h3 class="text-lg font-bold text-center mb-6">les compétences visées</h3>
+        <h3 class="text-lg font-bold text-center mb-6">Les compétences visées</h3>
 
         <div formGroupName="transversales" class="space-y-6 border border-gray-200 p-4 rounded">
-            <h4 class="required-field text-lg font-semibold mb-2">les compétences transversales</h4>
+            <h4 class="required-field text-lg font-semibold mb-2">Les compétences transversales</h4>
 
             <!-- Communicationnelles -->
             <div formArrayName="communicationnelles" class="border border-gray-200 p-4 rounded">
@@ -681,7 +681,7 @@
                 <tr class="row-height-43" style="border-bottom: 3px solid black;">
                     <td class="cell-209" style="border: 1px solid black; padding: 0 10px;">
                         <p class="s1">
-                            <strong>Niveau Scolaire:</strong> {{ stepOneForm.value.niveauScolaire }}<br>
+                            <strong>Niveau scolaire:</strong> {{ stepOneForm.value.niveauScolaire }}<br>
                             <strong>Classe:</strong> {{ stepOneForm.value.classe }}
                         </p>
                     </td>
