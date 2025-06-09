@@ -365,9 +365,9 @@
         <div [formGroup]="stepSevenForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
             <h3 class="text-lg font-bold text-center mb-6">Situation-problème</h3>
             <div>
-                <label class="required-field block text-sm font-semibold mb-2"></label>
+
                 <textarea formControlName="situationProbleme" rows="4" class="w-full border border-gray-300 p-2 rounded"
-                    placeholder="Décrivez ici une situation réelle ou fictive..."></textarea>
+                    placeholder="Décrivez ici votre situation-problème..."></textarea>
             </div>
         </div>
     </div>
@@ -417,11 +417,11 @@
 
                 <!-- Activité Description -->
                 <div formArrayName="activiteDescription" class="space-y-2">
-                    <label class="required-field font-semibold">Planification de séquence didactique {{ getRomanNumeral(i) }}:</label>
+                    <label class="required-field font-semibold">Planification de la séquence didactique {{ getRomanNumeral(i) }}:</label>
                     <div *ngFor="let desc of getFormArray(i, 'activiteDescription').controls; let j = index"
                         class="flex gap-2">
                         <input [formControlName]="j" class="border p-2 rounded w-full"
-                            placeholder="Planification de séquence didactique ..." />
+                            placeholder="Planification de la séquence didactique ..." />
                         <button type="button" (click)="removeItem(i, 'activiteDescription', j)"
                             class="text-red-600 font-bold">×</button>
                     </div>
@@ -595,9 +595,9 @@
     <div *ngIf="currentStep === 10">
         <div [formGroup]="stepElevenForm" class="border border-gray-300 p-6 rounded-lg bg-white shadow-sm space-y-6">
             <div>
-                <label class="required-field block text-sm font-semibold mb-2">Bilan Général</label>
+                <label class="required-field block text-sm font-semibold mb-2">Bilan général</label>
                 <textarea formControlName="BilanGénéral" rows="4" class="w-full border border-gray-300 p-2 rounded"
-                    placeholder="Bilan Général..."></textarea>
+                    placeholder="Bilan général..."></textarea>
             </div>
         </div>
     </div>
@@ -989,7 +989,7 @@
                 <tr style="border-bottom: 3px solid black;">
                     <td colspan="3" style="border: 1px solid black; padding: 0 10px;">
                         <p class="s1">
-                            <strong>Bilan Général:</strong><br>
+                            <strong>Bilan général:</strong><br>
                             {{ stepElevenForm.value['BilanGénéral'] }}
                         </p>
                     </td>
