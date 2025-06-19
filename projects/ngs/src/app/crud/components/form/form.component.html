@@ -72,6 +72,7 @@
                         <label class="required-field block text-sm font-semibold mb-1">Enveloppe horaire de l’unité</label>
                         <div class="flex gap-2">
                             <input type="number" formControlName="dureeUnite"
+                            min="1" oninput="if (this.value < 1) this.value = 1"
                                 class="w-2/3 border border-gray-300 p-2 rounded" />
                             <select formControlName="uniteTimeType" class="w-1/3 border border-gray-300 p-2 rounded">
                                 <option value="min">min</option>
@@ -84,6 +85,7 @@
                         <label class="required-field block text-sm font-semibold mb-1">Enveloppe horaire du chapitre</label>
                         <div class="flex gap-2">
                             <input type="number" formControlName="dureeChapitre"
+                            min="1" oninput="if (this.value < 1) this.value = 1"
                                 class="w-2/3 border border-gray-300 p-2 rounded" />
                             <select formControlName="chapitreTimeType" class="w-1/3 border border-gray-300 p-2 rounded">
                                 <option value="min">min</option>
@@ -251,7 +253,7 @@
             <!-- Plan / Chapitre -->
             <div formGroupName="planChapitre" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
                 <input type="text" formControlName="titre" placeholder="Plan / Chapitre" class="border p-2 rounded" />
-                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded" />
                 <select formControlName="unite" class="border p-2 rounded">
                     <option value="min">min</option>
                     <option value="h">h</option>
@@ -261,7 +263,7 @@
             <div formGroupName="Introduction" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
                 <input type="text" formControlName="titre" placeholder="Introduction" readonly
                     class="border p-2 rounded bg-gray-100 font-bold" />
-                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                    <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded" />
                 <select formControlName="unite" class="border p-2 rounded">
                     <option value="min">min</option>
                     <option value="h">h</option>
@@ -279,8 +281,7 @@
                     <div formGroupName="lignes" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <input type="text" formControlName="titre" placeholder="Titre "
                             class="border p-2 rounded w-full" />
-                        <input type="number" formControlName="duree" placeholder="Durée"
-                            class="border p-2 rounded w-full" />
+                            <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded w-full" />
                         <select formControlName="unite" class="border p-2 rounded w-full">
                             <option value="min">min</option>
                             <option value="h">h</option>
@@ -293,8 +294,7 @@
                             class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                             <input type="text" formControlName="titre" placeholder="Activité"
                                 class="border p-2 rounded w-full" />
-                            <input type="number" formControlName="duree" placeholder="Durée"
-                                class="border p-2 rounded w-full" />
+                                <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded w-full" />
                             <div class="flex gap-2">
                                 <select formControlName="unite" class="border p-2 rounded w-full">
                                     <option value="min">min</option>
@@ -329,7 +329,7 @@
             <!-- Conclusion -->
             <div formGroupName="conclusion" class="md:grid grid-cols-3 gap-4 border p-4 rounded">
                 <input type="text" formControlName="titre" readonly class="border p-2 rounded bg-gray-100 font-bold" />
-                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded w-full" />
                 <select formControlName="unite" class="border p-2 rounded">
                     <option value="min">min</option>
                     <option value="h">h</option>
@@ -339,7 +339,7 @@
             <!-- Évaluation Formative -->
             <div formGroupName="evaluation" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
                 <input type="text" formControlName="titre" readonly class="border p-2 rounded bg-gray-100 font-bold" />
-                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded w-full" />
                 <select formControlName="unite" class="border p-2 rounded">
                     <option value="min">min</option>
                     <option value="h">h</option>
@@ -349,7 +349,7 @@
             <!-- Soutien -->
             <div formGroupName="soutien" class="grid md:grid-cols-3 gap-4 border p-4 rounded">
                 <input type="text" formControlName="titre" readonly class="border p-2 rounded bg-gray-100 font-bold" />
-                <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded" />
+                <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded w-full" />
                 <select formControlName="unite" class="border p-2 rounded">
                     <option value="min">min</option>
                     <option value="h">h</option>
@@ -663,7 +663,7 @@
             <textarea formControlName="description" placeholder="Description du soutien" rows="3"
                 class="border p-2 rounded w-full col-span-1 md:col-span-3"></textarea>
 
-            <input type="number" formControlName="duree" placeholder="Durée" class="border p-2 rounded w-full" />
+                <input type="number" formControlName="duree" placeholder="Durée" min="1" oninput="if (this.value < 1) this.value = 1" class="border p-2 rounded w-full" />
 
             <select formControlName="unite" class="border p-2 rounded w-full">
                 <option value="min">min</option>
@@ -1054,3 +1054,8 @@
         </button>
     </div>
 </div>
+<div class="flex justify-center mt-8">
+    <a href="https://mafiche.netlify.app/fiche" class="px-6 py-3 bg-gray-300 text-black rounded-lg hover:bg-gray-400">
+      Retour à l'accueil
+    </a>
+  </div>  
