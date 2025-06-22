@@ -193,14 +193,14 @@
 
         <!-- Spécifiques -->
         <div class="mt-8 border border-gray-200 p-4 rounded">
-            <h4 class="required-field text-lg font-semibold mb-2">Les compétences spécifiques</h4>
+            <h4 class="required-field text-lg font-semibold mb-2">Les compétences disciplinaire</h4>
             <div formArrayName="specifiques">
                 <div *ngFor="let ctrl of specifiques.controls; let i = index" class="flex gap-2 mb-2">
                     <input [formControlName]="i" class="w-full border border-gray-300 p-2 rounded" />
                     <button type="button" (click)="removeSpecifique(i)" class="text-red-600 font-bold px-2">×</button>
                 </div>
                 <button type="button" (click)="addSpecifique()" class="text-blue-600 text-sm">
-                    + Ajouter une compétence spécifique
+                    + Ajouter une compétence disciplinaire
                 </button>
             </div>
         </div>
